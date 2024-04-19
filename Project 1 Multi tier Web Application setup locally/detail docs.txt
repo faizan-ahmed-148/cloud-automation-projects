@@ -1,0 +1,42 @@
+1. chocalaty for window  https://chocolatey.org/install  this is used to install all software
+2. homebrew from macos https://brew.sh/ this is used to install all software
+3. docker hub
+4. sonarcloud --pending
+5. github
+6. aws account --> iam user --> cloudwatch set alarm --> set billing preference --> aws certificate manager
+7. Vm ware by using docs -- window use main github repository
+
+
+
+
+-----------------------------------------------
+Tomacat: is a java web application service
+jdk: java develpment kit
+jre: java run environment
+
+------------------------------------------
+
+Multi tier Web Application setup locally
+
+Flow of execution:
+1. Setup tools mentioned in prerequisite video
+2. clone source code
+3. cd into the vagrant dir
+4. bring up Vms
+5. Validate
+6. setup All services 
+    a. Mysql
+    b memchached
+    c Rabbit MQ
+    d Tomcat
+    e nginx
+    f app build and deploy
+    e verify from browser
+
+7. order by 
+    a mysql
+    b memchache
+    a rabbit MQ
+    a Tomcat
+    a Nginx
+

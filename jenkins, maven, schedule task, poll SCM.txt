@@ -1,0 +1,57 @@
+connect all plugin
+
+
+-- > go to dashboard - manage plugins - available - select maven integration & green balls - install without restart
+
+Go to new item -> maven project
+
+now go to manage jenkins - global tool configuration
+
+go to add JDK
+
+uncheck this install automatically option 
+
+Name ->  JAVA
+JAVA_HOME - > c:\programingfile\java\jdk
+
+now go to maven
+NAME -> MAVEN
+MAVEN_HOME ->  C:\Devtool\apache-Meven
+
+Maven Project (By jenkins)
+
+now go to Jenkins -> New item -> Entername -> MyMavenProject
+
+
+Maven Project -> ok
+Source Code Management - > git
+
+-> Repository URL -> github -> build options -> root pom -> pom.xml
+goals & options -> clean package -> save
+ MyMavenProject -> BuildNow
+
+=================== sheduler -=================
+
+Shedule project -> configure -> build triggers -> build periodically
+
+can see automatic builds after every 1 min
+
+you can manually trigger build as well 
+ ================= source code polling ===================
+
+-> now go to jenkins Homepage
+-> go to ourProject -> Configure
+
+now go to build trigger 
+
+[tick]Poll SCM
+
+shedule
+
+Now go to github Account do some changes in redme.file
+
+
+
+
+
+

@@ -1,0 +1,171 @@
+--------------------project 7 cicd using jenkins nexus sonarqube and slack-----------------
+
+
+---- scenerio
+
+. agile sdlc 
+. developer make regular code changes
+. these commit need to be tested & build
+. usually buil & release Team will do this job
+. or developer responsibility to merge an integrate code
+
+
+----- problems
+. in an agile sdlc there will be frequent code changes
+. not so frequently code will be tested
+. which accumulates bugs and error in the code
+. developer need to rework to fix these bugs and error
+. manual build & relese process inter team dependencies
+
+----- Solution
+. regular build & tet for every time
+. automated process
+. notify for every build status
+. fix code if bugs or error found instatly rather thn waiting
+
+this process is called continuos integration
+
+---- tools
+
+. jenkins
+. git & github
+. maven
+. checkstyle
+. slack --> for nottification
+. nexus --> to store our artifact and software repository
+. sonarqube --> code analysis server
+
+What is a Nexus in Java?
+
+Nexus by Sonatype is a repository manager that organizes, stores and distributes artifacts needed for developmen
+
+What is SonarQube and what is it used for?
+
+SonarQube is a self-managed, automatic code review tool that systematically helps you deliver Clean Code
+
+
+---flow of execution
+. login to aws
+. create key pair
+. create security group
+   a . jenkins , nexus & sonarqube
+. create ec2 instance with user data
+   a . jenkins , nexus & sonarqube
+. Post instllation
+   a.  jenkins setup & plugins
+   b. nexus setup & repository setup
+   c. sonarqube login test
+. git
+   a. create github repository & migrate code
+   b. integrate github repo with vs code and test it
+. Build job with nexus integration
+. github webhook
+. sonarqube server integration
+. nexus artifact upload stage
+. slack notifiction
+
+-----------------------------------------------------------
+
+create jenkins security group --> ssh rule --> 8080 : ipv4 --> 8080 : ipv6 --> 8080 : sonar security group
+create nexus security group --> ssh rule --> 8081 : myip --> 8081 : jenkins security group
+create sonar security group --> ssh rule --> 80: myip --> 80: jenkins security group
+
+---------------- create ecs server
+jankins server with jekins script
+nexus server with jekins nexus
+sonar server with jekins sonar
+
+
+------------
+
+laucnh jenkins
+
+
+install plugin
+. maven integration
+. github integration
+. nexus artifact uploader
+. sonarQub scanner
+. slack nottification
+. build timestamp
+
+add tool jdk 11 and 8  and maven
+--> ls /usr/lib/jvm
+
+create jenkins file
+
+it will create all dependency in nexus group
+-----------------------------------------------------
+add creadential : global credential : nexuslogin with username and password
+-------------------------------
+
+---------------github integration----------------------
+add github configuration
+
+run pipeline with github if show any error switch to jenkins user 
+
+command : git ls-remote -h -- git@github.com:faizan-ahmed-147/ci-cd-jenkins-nexus-sonar-slack.git HEAD
+
+weebhooks done
+-------------------------
+-------------------------sonarQub scanner----------------------------------
+------ >now add one more configure global tool sonar scanner 
+
+-- > add sonar server and in jenkins with private sonnar ip
+
+----- > generate token from sonarqube and add in jenkins configuration system  sonarscanner with private sonnar ip of jenkins
+
+----> channges in pipeline sona scanner 
+
+
+-- > changes in jenkins file and run build
+
+--> go to sonarqube and add qality gate and webhook connected with jenkins (private ip)s
+
+---> run build
+---------------------------------------------------
+----------------build timestamp------------nexus artifact uploader-------------------------
+
+-----> add configuration build time stamp --> nexus artifact uploader -> changes in pipeline and upload
+
+------------------------------------------------------------
+
+-----------------------------slack nottification----------------------------
+
+---> go to slack --> create workspace -> channel -> add slack to the workspace --> generate token
+
+--> now add slack congiguration
+
+-->changes in pipeline push and build
+
+slack : S6b2BQ8XuVjE9MVReiacBsDA
+
+-----------
+
+ 
+
+---------------
+laucnh nexus
+
+lunch in port 8081
+make repository-->maven hosted --> vprofile-release
+
+make repository-->maven proxy --> vpro-maven-central
+https://repo1.maven.org/maven2/
+
+make repository-->maven hosted--> vprofile-snapshot
+
+make repository-->maven group--> vpro-maven-group
+
+
+--------------------------------------
+
+lauch sonar
+
+
+
+
+
+
+
+

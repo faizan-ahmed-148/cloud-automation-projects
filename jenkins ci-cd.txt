@@ -1,0 +1,53 @@
+ first download java 
+
+download Java Se development kit 16
+
+go to  C drive java-jdk16-selectpath-paste in environment variable
+go edit system
+
+JAVA_HOME =variable name
+
+go to  C drive java-jdk16-selectpath-paste bin
+
+--> echo %JAVA_HOME%
+
+===============================================================
+
+maven download
+
+maven.apache.org
+
+
+extract file - C:/DevTools
+
+go to C:/ Devtools-> ApacheMaven->Copy thr path
+
+system variable M2_HOME
+
+
+go to  C drive Devtools-ApacheMaven--selectpath-paste bin
+system variable go to path
+
+--> echo %M2_HOME%
+
+
+============================================================
+
+
+
+jenkins download
+go to chrome - jenkins.io
+select lts - windows-download
+
+
+open downloaded file run and install
+
+after installation it automatically open as localhost:8080
+
+unlock the page password
+
+now install suggested plugins
+
+plugins :  plugins are small libraries that add new abilities to jenkins and can provide integrae points to other tools
+
+

@@ -1,0 +1,60 @@
+server {                                                                                                                                                                
+        listen          80;                                                                                                                                             
+        server_name     backend.com www.backend.com;                                                                                                                    
+                                                                                                                                                                        
+#Uncomment lines below to enable SSL.
+#They are given as an example. Please update config as require
+                                                                                                                                                                        
+#        listen 443 ssl http2;
+#        ssl_certificate     /etc/nginx/ssl/backend.com.crt;
+#        ssl_certificate_key /etc/nginx/ssl/backend.com.key;
+#        ssl_verify_depth 1;
+#        ssl_session_timeout 1d;
+#        ssl_session_cache shared:SSL:50m;
+#        ssl_protocols TLSv1.2;
+#          Generate dhparams before enabling SSL with following command
+#          openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
+                                                                                                                                                                        
+#        ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+#        ssl_ciphers 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384>
+#        ssl_prefer_server_ciphers on;
+                                                                                                                                                                        
+# HSTS (ngx_http_headers_module is required) (15768000 seconds = 6 months) comment
+#       add_header Strict-Transport-Security max-age=15768000;
+                                                                        
+# OCSP Stapling ---
+# fetch OCSP records from URL in ssl_certificate and cache them
+#        ssl_stapling on;
+#        ssl_stapling_verify on;
+        access_log      /applications/logs/nginx/backend.com.access.log;                                                                                                
+        error_log       /applications/logs/nginx/backend.com.error.log;                                                                                                 
+                                                                                                                                                                        
+        client_max_body_size 20m;                                                                                                                                       
+        server_name_in_redirect off;                                                                                                                                    
+                                                                                                                                                                        
+  location / {                                                                                                                                                          
+        try_files $uri = @backend;                                                                                                                                      
+        }
+                                                                                                                                                                        
+  location @backend {                                                                                                                                                   
+            error_log off;                                                                                                                                              
+            client_max_body_size 20m;                                                                                                                                   
+            client_body_buffer_size 128k;                                                                                                                               
+            proxy_connect_timeout 300;                                                                                                                                  
+            proxy_send_timeout 300;                                                                                                                                     
+            proxy_read_timeout 300;                                                                                                                                     
+            proxy_buffer_size 128k;                                                                                                                                     
+            proxy_buffers 4 256k;                                                                                                                                       
+            proxy_busy_buffers_size 256k;                                                                                                                               
+            proxy_redirect off;                                                                                                                                         
+            proxy_buffering off;                                                                                                                                        
+            proxy_set_header X-Real-IP $remote_addr;                                                                                                                    
+            proxy_set_header X-Forwarded-For $remote_addr;                                                                                                              
+            proxy_set_header Host $host;                                                                                                                                
+            proxy_pass http://ngx_nodejs;                                                                                                                               
+            proxy_set_header X-Forwarded-Proto $scheme;                                                                                                                 
+            proxy_set_header X-Forwarded-Host $http_host;                                                                                                               
+        }                                                                                                                                                               
+                                                                                                                                                                        
+}                                                                                                                                                                       
+     

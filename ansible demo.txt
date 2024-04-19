@@ -1,0 +1,121 @@
+a================ ansible demo =================
+
+-- > wget https://dl fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+[]# yum or apt-get install name
+
+[]# yum or apt-get install git python python-level python-pip openssl ansible -y
+
+[]# vi /etc/ansible/hosts
+add ip of all node
+
+[demo]
+173.343434.34
+
+[developers]
+173.343434.34
+173.343434.34
+173.343434.34
+
+
+[]# vi etc/ansible/ansible.cfg
+remove # from inventory
+and root uncomment
+
+[]# /etc/ansible/hosts
+sudo-user = root
+
+
+now create one user in all the three instances
+
+[]# adduser ansible
+
+now set password this user 
+
+[]# password ansible
+
+now switch an ansible user
+
+[]# su -ansible
+
+
+this ansible user dont have sudo  privilaged
+right now if you give sudo priviledge to ansible user
+
+
+[root@ip] # visudo
+
+now inside this file 
+
+root ALL=(ALL)  All
+ansible ALL=(ALL)  NOPASSWD: All
+
+now do this thing in another needs also now go to ansible server and try to install httpd package as a ansible user 
+
+[ansible@ip]# sudo yum or apt-get install httpd -y
+
+now  establish connection between server and node gp tp ansible server
+
+[ansible@ip] ssh 172 3141 240
+
+o/p permision denied
+
+now we have to do some changes in sshd-config file  go to ansible server
+
+[root@ip]# vi /etc/ssh/sshd-config
+
+uncomment permitrootlogin
+uncomment PasswordAuthentication yes
+
+do some changes 7 saved the file 
+do this work in node1 and node2 also now verify in ansible server
+ run ==> service sshd restart
+[root@ip] su -ansible
+
+[ansible@ip] ssh 1723141240(privateip)
+
+now it ask for password  enter the password after that you will be inside node1
+========================== remove password =================================
+
+
+no go to ansible server and create keys run this command as ansible user
+
+
+[ansible@ip] ssh-keygen
+[] ls -a
+
+o/p .ssh/
+
+ls
+
+o/p id_rsa id_rsa_pub
+
+now i need to copy Public key in both the nodes
+
+[ansible@ip]# ssh-copy-id ansible(usernamem)@ip
+
+ask for password
+
+
+now verify go to ansible server
+
+[ansible@ssh]# cd..
+[ansible@ip]# ssh ip
+
+now you will enter into node 1 without password
+
+
+========================== host pattern======================
+
+
+"all" pattern refer to all the machines in an inventory 
+
+--> ansible all --list-hosts
+
+--> ansible <group name> --list-hosts
+--> ansible <groupname>[0] --list-hosts
+
+groupname[0] -> picks first machine of group
+
+groupname[1:4]-> pick forst two machines in group
+groupname[1:4]:groupname[1:4]

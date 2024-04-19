@@ -1,0 +1,29 @@
+============= jenkins ==========
+
+--> jenkins is an open source project written in java that run on windows, macos, and other unix like operating systems it is free community supported and might be your first choice tool for ci
+
+--> jenkins automate the entire software development ife cycle
+
+--> jenkins was originally developed by sun microsystem in 2004 under the name hudson
+
+--> the project was later name jenkins when oracle bought microsystems
+
+--> it can run on any major platform without any capibility issues
+
+--> whenever developer write code we integrate al that code of all developers at that point of time and we build test and deliver/deploy to the client this process is called CI/CD
+
+--> Because of CI now bugs will be reported
+
+github - jenkins - maven - selenium
+
+
+Workflow of jenkins
+
+-> we can attach git , maven, selenium and artifactory plugins for jenkins
+
+-> once developer put code in github, jenkins pull that code & send to maven for build
+
+-> once build is done jenkins pull that code and send to selenium for testing
+
+
+-> once testing is done the jenkin pull that code send to artifactory 

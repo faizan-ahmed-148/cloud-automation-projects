@@ -1,0 +1,71 @@
+==================== role =======================
+
+
+--> we can use two technique for running a set of tasks:- includes and role
+--> roles are good for organizing tasks and encapsulating data needed
+ to accomplish
+ those task
+
+playbook
+--------------------------------------
+ master.yml      -        myrole      -
+   target        -        manage      -                     -
+    roles        -          task      -
+     myroles     -                    -
+                 -        manage      -
+                 -          vars      -
+                 -                    -
+                 -        manage      -
+                 -          handlers  -
+                 -                    -
+--------------------------------------                                     
+--> we can organize playbooks into a directory structure called roles
+--> adding more and more functionality to be playbook will make it difficultto maintain a single file
+
+
+default -> it stores the data about role / applications
+define variable
+
+example :  if you want to run to port 80 or 8080 then variable need to define in the path
+
+files - > it contain files need to be transfered to the remote VM (static files)
+
+handlers - > they are trigger or task we can segregate all the handlers required in playbook
+
+meta -> this directory contain file that establish roles dependencies
+
+example : Author name, supported platform , dependencies if any
+
+Tasks - > it contain all the tasks that is normallly in the playbook 
+examples : installing pakages and copies files
+
+
+vars - >  variable for the role can be specified in the directory and used in your cnfiguration file both vars and default store variable
+
+ ============================roles=============
+
+[ansible@ip] # mkdir-p  playbook/roles/webserver/tasks
+[ansible@ip] # tree
+[ansible@ip] # cd playbook
+[ansible@ip] # tree
+[ansible@ip playbook] # touch roles/webserver/tasks/main.yml
+[ansible@ip playbook] # touch master.yml
+[ansible@ip playbook] # vi roles/webserver/tasks/main.yml
+
+inside main.yml
+
+- name: install apache2
+  yum pkg=httpd state=latest
+
+[ansible@ip playbook] vi master.yml 
+
+    - host: all
+      user: ansible
+      become: yes
+      connection: ssh
+      roles: 
+         - webserver
+
+[ansible@ip playbook] ansible-playbook master.yml
+
+===============================================================

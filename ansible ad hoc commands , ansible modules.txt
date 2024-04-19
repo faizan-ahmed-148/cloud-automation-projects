@@ -1,0 +1,60 @@
+========================= YAML ===================
+
+
+YAML = yet anothewr markup language
+
+Module -> single work
+Playbook -> more than One Module 
+
+=============ad-hoc command=====================
+
+ad-hoc Command are Commands Which can be run individually to perfome quick functions
+
+--> these ad-hoc commands are not used for configuration Mangement and deployment because these Command are of one time usage
+
+--> the ansible ad-hoc uses the /usr/binbash command line tool to automate the sinagle task 
+
+
+[ansible@ip] ansible groupname -a "ls"
+[ansible@ip] ansible groupname[0] -a "ls"
+[ansible@ip] ansible all -a "touch file4"
+[ansible@ip] ansible groupname -a "ls -al" ==> to show hidden file
+[ansible@ip] ansible groupname -a "sudo yum install httpd -y"
+[ansible@ip] ansible groupname -ba "yum install httpd -y"==> if you not write sudo
+[ansible@ip] ansible groupname -bs "yum remove httpd -y"==> if you not write sudo
+
+
+========================================================================
+========================= ansible module ==========================
+
+
+--> ansible ship with a number of module that can be executed directed
+--> your library of modules can be reside on any machine and there are no servers , darmons or database required
+
+where ansible module are stored?
+the default location for the inventory file is /etc/ansible/hosts
+
+================== module command ======================
+install = present
+uninstall = absent
+update = Latest
+
+[ansible@ip] ansible groupname -b -m yum -a "pkg = httpd state=present"
+
+[ansible@ip] ansible groupname -b -m yum -a "pkg = httpd state=lattest" --> update
+
+[ansible@ip] ansible groupname -b -m yum -a "pkg = httpd state = absent"
+
+[ansible@ip] ansible groupname -b -m service -a "pkg = httpd state = started"
+
+[ansible@ip] ansible groupname -b -m user -a "name = bhupi"
+
+[ansible@ip] ansible groupname -b -m copy -a "src = file4 dest = /tmp"
+
+====================  module setup =========================
+
+[ansible@ip] ansibe groupname -m setup
+
+[ansible@ip] ansibe groupname  -m setup -a "filter = *ipv4*"
+
+ 

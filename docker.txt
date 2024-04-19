@@ -1,0 +1,85 @@
+==================Docker================
+
+container is like a virtual machine
+Docker : is a tool which create this virtual machine
+hyperviser : help to create virtual machine
+
+-> docker was first release in march 2013 it is developed by solomon hykes and sebastion pahl
+-> docker is a open source centralize platform designed to create , deploy,
+and run application
+-> docker uses container on the host o.s to run application
+it allows applications to use the same linux kernel as a system
+on the host computer,rather than creating a whole virtual o.s
+--> we can install docker on any o.s but docker engine runs natively on linux distribution
+->docker written in 'go' language
+->docker is a tool that platform o.s level virtualization also know as containerization
+-> before docker many users faces the problem that a particular code is
+running in the developers system but not in the users system
+->docker is a set of platform as a service that uses o.s level
+virtualization where as VMware uses hardware level virtualization
+
+
+===========================end=======================
+
+
+
+-> no allocate of RAM
+-->CI efficiency : docker enable you to build a container image and use to some  image across every step of the deployment process
+-->less cost
+--> it is light in weight(less resources)
+--> it can run on physical h/w virtual h/w or on cloud 
+--> you can re-use the image
+--> it took very less time to create conntainer
+
+==========disadvantage of docker ============
+
+--> docker is not a good solution for application that require rich GUI
+--> difficult to manage large amount of container
+--> docker doesnot provide cross platform 
+--> docker is when the development os and testing os are same
+
+=============docker architecture=========================
+
+Docker daemon :
+-->runs on the host operating system
+-->it is responsible for running container to manage docker service
+--> docker daemon can communicate with other daemon
+
+docker Client :
+-->docker users can interact with through a client
+--> docker client uses commands and rest api to communicate with the docker daemon
+--> when a client runs any server command it push to the docker daemon
+--> it is possible used to provide on environment
+to execute and run applications it contain the docker daemon 
+image , containers,networks, storage
+
+
+=========docker hub/registry=======
+
+docker registry manages and stores the docker images
+
+there are two type of registries in docker
+
+1) public registry -> public registry is also called as docker hub
+2)private registry -> it is used to share images with in the enterprise
+
+======doccker images=============
+
+--> docker image are the read only binary template used to create docker container
+
+--> single file with all dependencies and configuration required to run a program
+
+way to create an image 
+image create container
+--> take image from docker hub
+--> create image from docker file
+--> create image from docker existing container
+
+
+====docker container========
+
+-->container hold the entire packages that is needed to run the application 
+
+--> container is like vertual machine
+
+

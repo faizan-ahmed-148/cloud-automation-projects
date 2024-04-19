@@ -1,0 +1,30 @@
+==================== ansible ===============
+
+ansible : is a configuring management tool it worl on push based
+it aims to provide large productivity gains to a wide variety of automation challenges
+
+-> ansible is agent less
+
+ansible history : 
+
+-> michael dehan developed ansible and the ansible project began in feb 2012
+-> redhat acquire the ansible tool in 2015
+-> ansible is available for RHEL, centos, oracle
+-> can use this tool whether your servers are in on-process or in the cloud
+ 
+
+Ansible server : the machine where ansible installed and from which all tasks and playbook
+
+Module : basically a module is a commad or set of similar cammands meant to be executed on the client side
+
+task : a task is a section that consists of a single procedure to be completed
+
+role: a way of organization task related files to be  later cal
+
+Fact :  information fetched from the client system from the global variable with the gather facts operation
+
+inventory : file containing data about the ansible  client server
+
+play : execution of a playbook
+
+playbooks :  it consist code in yaml which describe task to be executed

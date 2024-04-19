@@ -1,0 +1,29 @@
+=====================docker hub=======================
+
+linux machine
+
+--> sudo su
+--> apt-get update -y
+--> apt install docker
+--> service docker start
+--> docker run -it ubuntu /bin/bash
+
+now create some file inside container now creating image of this container
+
+--> docker commit container1 image1
+
+-> docker login
+
+-> docker tag image1 dockerid/newimage
+--> docker push dockerid/newimage
+now you can see this image in docker hub account 
+
+--> docker pull dockerid/newimage
+
+--> dockerr run -it --name containername dockerid/newimage /bin/bash
+
+stop all running container : docker stop $(docker ps -a -q)
+
+delete all stopped container : docker rm $(docker ps -a -q)
+
+delete all images : docker rmi -f $(docker images -q)

@@ -1,0 +1,218 @@
+--------------continuos integration on aws -----------------
+
+--- Scenario
+
+. agile sdlc
+. developer make regular code change
+. these commit needs to be build and tested
+. usually build & release team will do this job
+. developer reponsibility to merge and integrate code
+ 
+
+---- problems
+
+. in an agile sdlc there will be frequent code
+. not so frequently code will be tested 
+. which accumulates bugs and error in code
+. developers need to rework to fix these bugs
+. manual build and release process
+. inter team dependencies
+
+---- solution
+
+. build & test for every commit
+. automated process
+.notify every build status
+. fix code if bugs or error found instantly rather than waiting
+
+----- problem
+
+. ci server maintenance
+. operational overhead to maintain server like jenkins . nuxus, sonar, git
+
+--- solution
+. cloud service for ci to remove ops overhead
+
+--- >AWs service
+
+code commit --> version control system
+code artifact --> maven repository for dependency
+code build --> build service from aws
+code deploy -> artifact deployment service
+sonar cloud --> cloud base sonarqube
+checkstyle --> code analysis from build job
+code pipeline --> service to integrate all jobs together
+
+
+
+-----------------------------------------
+
+
+- -- Flow of execution -----
+
+. login to aws account
+. code commit
+  a. create codecommit repo
+  b create iam user with code commit policy
+  c generate ssh key locally
+  d exchange key with iam user
+  e put sorce code from github repo to cc repository and push
+
+. code artifact
+  a. create iam user with code artifact access
+  b. install aws cli
+  c. export auth token
+  d. update setting.xml in sorce code top level directory with below details
+  e. update pom.xml file with repo detail
+
+
+sonar cloud
+  . create sonar cloud account
+  . genrate token
+  . create ssm parameter with sonar detail
+  . create build projrct 
+  . update code buld role to access ssm parameter store
+
+create nottification for sns or slack
+
+build project: code build
+   .  update pom.xml with artifact cersion with timestamp
+   .  create variable in ssm -> parameter store
+   .  create build project
+   .  update code build role to process ssmparameter store
+
+create pipeline
+   . code commit
+   . test code
+   . build
+   . deploy 
+
+test pipeline
+
+
+
+---------------------------------------------------------------------------------------
+
+lecture 1 : codecommit : github
+
+1. create code commit repository
+2. iam user with custom policies for codecommit
+3. ssh auth codecommit repo
+4. migrate vprofile project repo from github to code commit
+
+--login from iam user
+
+-- first code to code commit make repository
+-- and  then create iam user with create policies access just code commit 
+-- create access key for user
+
+---$  ssh-keygen -t rsa
+
+/c/Users/Chacha Tech/.ssh/aws-commit_rsa
+
+---------------------
+
+---> window --> vim ~/.ssh/config
+
+Host git-codecommit.*.amazonaws.com
+  User APKA4MTWIPKSZBVKEVFU
+  IdentityFile ~/.ssh/aws-commit_rsa
+
+--------------------------
+
+command :  ssh git-codecommit.us-east-1.amazonaws.com
+
+command :  ssh -v git-codecommit.us-east-1.amazonaws.com
+
+clone the code
+
+command : cat .git/config
+command : git branch -a
+command : git checkout ci-aws 
+command : git checkout cd-aws 
+command :git checkout ci-jenkins
+command :git checkout docker
+command :git branch -a | grep remotes | grep -v HEAD | cut -d / -f3 
+command :git branch -a | grep remotes | grep -v HEAD | cut -d / -f3 > /tmp/br
+
+command :for i in `cat /tmp/br`; do echo $i; done
+
+command :for i in `cat /tmp/br`; do git checkout $i; done
+command : git remote rm origin
+command : git remote add origin ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/vprofile-code-repo
+
+command : git push origin --all
+
+------------------------------------------------------------
+
+lecture 2
+
+code artifact: nexus
+
+-- go for code artifact
+-- make repository --> vprofile-maven-repo
+
+-----------------------
+SonarCloud
+
+--create sonarcloud
+-- login
+-- genrate token : f73e629ed8f43abb0afd17b130ba79089e439dfa
+-- projectkey : faizan-ahmed-147_faizan
+-- organizationkey: faizan-ahmed-147
+
+
+---------------------
+
+
+now go to systemmanger --> parameter store --> add all parameter
+
+---------------------------------
+
+
+
+Code Build :
+
+go to maven central repository -> copy url and paste into pom.xml
+
+create project
+
+set iam permision for buildproject both attach policy code artifact & new policy prameter
+
+add one more build code artifact
+----------------------------------------------
+ create s3 bucket
+vpro-folder
+
+-- create sns service
+
+--vpro-pipeline-notification
+
+-- create pipeline code build --> stage 1 --> source code , stage 2 --> code artifact
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+
+
+-----------------  continuos dilivery for java web application ---------
+
+
+
+------ scenario
+
+. agile sdlc
+. developer make regular code changes
+. these commit need to build and tested
+. package/software/artifact  deployment on server
+. softwaretesting / integration testing after deployment
+. test report gets evaluated and approval for prod deploy issued
+
+
+---- problem
+
+. in and agile sdlc there will be frequent code changes
+. manual code deployment is time consuming 
+. involve task/ticketing/approvrl
+. dependency on ops & build & release
+
+----- solution
+
+. build test , deploy & test for every commit
+. automated process
+. notify for every build status
+. fix code if bugs or error found instantly rather than waiting
+
+--tools :
+
+. jenkins
+. nexus sonatype repository
+. sonarqube 
+. maven
+. git 
+. slack for nottification
+. docker
+. ecr elastic container register
+. ecs
+. aws cli
+
+------------ flow of execution
+
+. updating github web-hook with new jenkins ip
+. copy docker file from vprofile repo to our repo
+. prepare two seprate jenkins file for staging & prod in source code
+. aws steps
+  a. iam, ecr, Repo setup
+. jenkins setup
+  a. install plugins --> amazon ecr --> docker --> docker build & publish
+  b. pipeline: aws steps
+. install docker engine & aws cli on jenkins
+. write jenkins file for build & publish image to ecr
+. ecs setup
+  . cluster, task definition , service
+. code for deploy docker image ecs
+. repeat the steps for prod ecs cluster
+. promoting docker image for prod
+
+---------------------------------------------------------------
+
+
+--> first create iam user that use ecr and esc
+--> attach policies --> eccon full access --> ecs full access
+--> create a repository amazon elastic container registry
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------

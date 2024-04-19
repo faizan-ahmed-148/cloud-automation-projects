@@ -1,0 +1,101 @@
+sudo wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo apt-key add -
+
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+sudo apt-get update
+sudo apt-get install fontconfig openjdk-17-jre
+sudo apt-get install jenkins
+
+
+sudo hostnamectl set-hostname jenkins
+
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+
+------------docker ---------------------
+
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+sudo apt-get update
+
+
+-------------- ansible -----------------------------------
+
+sudo apt install software-properties-common -y
+sudo add-apt-repository --yes --update ppa:ansible/ansible -y
+sudo apt install ansible -y
+
+-----------------------------------
+
+sudo usermod -aG docker $USER
+newgrp ubuntu  
+
+--------
+--------------------jenkins server------------
+
+cd /etc/ansible
+sudo nano hosts 
+[]
+ip
+ ssh root@172.104.143.232 -p : 
+
+
+cd playbook
+---
+- name: Build & Deploy Container
+  hosts: dockerservers
+  remote_user: root
+  vars:
+    ansible_ssh_port: 2722
+  tasks:
+   - name: Copy the Files to remote server
+     become: true
+     copy:
+       src: /var/lib/jenkins/workspace/text-utils
+       dest: ~/applications
+       remote_src: true
+
+    - name: Building DockerImage
+      docker_image:
+        name: text:latest
+        build:
+          path: ~/applications
+        state: present
+
+    - name: Creating the Container
+      docker_container:
+        name: text-container
+        image: text:latest
+        port:
+          - "80:80"
+        state: started
+
+
+ansible-playbook deployment.yml
+
+
+ansible-playbook -i /etc/ansible/demo/inventory.ini pass.yml  
+
+
+
+------------ dockererver ------------------------
+paster jenkins ssh in dockerserver
+
+
+
+
+
+
+
+
+
+
+

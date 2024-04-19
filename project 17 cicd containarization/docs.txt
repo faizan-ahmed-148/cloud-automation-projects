@@ -1,0 +1,88 @@
+--------  cicd containarization --------------------
+-- scenario
+. comtinuos build and test
+. containarize application
+. continuos code change
+. continuos build and test
+. regular build of container images
+. regular deployment request to ops tem
+
+
+---- problems
+. operation team incharge of managing containers
+
+
+--- solution
+.automatically build & release process
+. build docker images & deploy continuosly as fast as the code commit
+. continuos deployment
+
+---tools
+. kubernetes --> orchestration tool
+. docker --> container run time
+. jenkins --> cicd server
+. docekr hub --> container registry
+. helm  --> packaging and deploying on kubernetes 
+. git 
+. maven
+. sonar qube
+
+---------------------------------------
+----- steps 
+. continuos integration setup
+ -> . jenkins, sonarqube & nexus
+. docker hub account
+. store docker hub credentials in jenkins
+. setup docker engine in jenkins
+. install plugins in jenkins
+  a. docker engine
+  b. docker 
+  c. pipeline utility
+. create kubernetes cluster with kops
+. install hem in kops vm
+. test charts in k8s cluster 
+. add kops vm as jenkins service
+. create pipeline code [declarative]
+. update git repository
+   a. helm charts
+   b. docker file
+   c. jenkins file
+. create jenkins hob for pipeline
+. run & test the job
+
+
+
+
+---------------------------------------------
+
+. add credential for docker hub
+. install docker in jenkins server
+. usermod -aG docker jenkins
+. plugins install
+  a. docker pipeline
+  b. docker
+  c. pipeline utility
+ 
+
+. login kops ec2 instance --> create the cluster
+
+. kops update custer
+. install helm from helm documentation ->tar xzvf
+. create repository and push data
+. clone the code on jenkins server
+. mkdir helm
+. helm create vprofilecharts 
+. variable {{.Values.appimage}}
+. kubectl create namespace test
+. helm install --namespace test vprofile-stack helm/vprofilecharts --set appimage=dockerhub:tag
+. helm list --namespace test
+. helm delete name --namespace test
+ 
+. kubectl create namespace prod
+. login kops an makedir jenkins-slave and apt install openjdk-8-jdk
+. sudo kdir /opt/jenkins-slave
+. sudo chown ubuntu.ubunutu /optjenkins-slave -R
+. kops security to jenkins with port 22
+
+
+

@@ -1,0 +1,60 @@
+
+type of storae in aws ??
+
+
+Amazon Simple Storage Service (S3):
+
+Definition: Amazon S3 is an object storage service designed to store and retrieve any amount of data from anywhere on the web. It's highly durable, scalable, and secure, offering a simple web services interface to store and retrieve data.
+Use Cases: S3 is commonly used for backup and restore, disaster recovery, data archiving, data lakes, content distribution, and as a static website host.
+Amazon Elastic Block Store (EBS):
+
+Definition: Amazon EBS provides block-level storage volumes for use with Amazon EC2 instances. It offers highly available, high-performance block-level storage that can be attached to a running instance.
+Use Cases: EBS volumes are suitable for databases, enterprise applications, containerized applications, and any workloads that require durable and high-performance block storage.
+
+Amazon Elastic File System (EFS):
+
+Definition: Amazon EFS provides a simple, scalable, fully managed elastic NFS file system for use with AWS cloud services and on-premises resources. It's designed to be highly available and durable.
+Use Cases: EFS is commonly used for content management, web serving, data sharing, and application development.
+Amazon Glacier:
+
+Definition: Amazon Glacier is a secure, durable, and extremely low-cost storage service for data archiving and long-term backup. It's optimized for infrequently accessed data where retrieval times of several hours are acceptable.
+Use Cases: Glacier is suitable for compliance and regulatory archiving, long-term data retention, and backup that doesn't require frequent access.
+Amazon Relational Database Service (RDS):
+
+Definition: Amazon RDS is a managed relational database service that provides easy setup, operation, and scaling of relational databases in the cloud. It supports various database engines such as MySQL, PostgreSQL, SQL Server, Oracle, and Amazon Aurora.
+Use Cases: RDS is used for hosting production databases, development and test environments, and disaster recovery setups.
+Amazon DynamoDB:
+
+Definition: Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. It offers low-latency data access at any scale.
+Use Cases: DynamoDB is commonly used for web and mobile applications, gaming, IoT, ad tech, and other applications that require single-digit millisecond latency.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q : difference between object and block storage ???
+
+
+Data Organization:
+
+Block Storage: Data is stored in fixed-sized blocks or chunks. Each block has a unique address and can be accessed individually. Block storage provides low-level access to data, making it suitable for traditional file systems and database storage.
+Object Storage: Data is stored as objects, each containing the data itself along with metadata and a unique identifier. Objects are stored in a flat address space and are accessed via APIs. Object storage is more flexible in terms of data organization and is suitable for unstructured data and large-scale storage environments.
+Scalability:
+
+Block Storage: Scaling block storage typically involves adding more storage devices or expanding existing ones. It can be challenging to scale block storage systems without interrupting service.
+Object Storage: Object storage is highly scalable by design. It can scale horizontally across distributed storage nodes without significant performance degradation. This makes it suitable for storing vast amounts of data, such as multimedia files, backups, and archives.
+Metadata Handling:
+
+Block Storage: Metadata is typically handled by the file system or database system using the blocks. Block storage systems focus more on raw data storage and retrieval, with less emphasis on metadata management.
+Object Storage: Each object in object storage contains its metadata, providing more flexibility in managing and accessing data. Object storage systems often offer rich metadata capabilities, making it easier to organize and search for data.
+Access Method:
+
+Block Storage: Accessed using low-level block-based protocols such as iSCSI or Fibre Channel. Block storage is commonly used in traditional storage area networks (SANs) and is suitable for applications that require direct access to block-level data.
+Object Storage: Accessed using HTTP-based RESTful APIs or other object storage protocols like S3 (Simple Storage Service) API. Object storage is well-suited for web applications, content delivery networks (CDNs), and cloud storage services.
+Data Integrity and Redundancy:
+
+Block Storage: Typically offers features like RAID (Redundant Array of Independent Disks) for data redundancy and integrity at the disk level.
+Object Storage: Provides built-in redundancy and data integrity mechanisms at the object level. Data is often replicated across multiple storage nodes to ensure durability and availability
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+

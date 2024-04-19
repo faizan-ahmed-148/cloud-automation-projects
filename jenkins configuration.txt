@@ -1,0 +1,134 @@
+
+
+
+14:21 / 21:44
+
+
+How to Install Jenkins, Integrating Nginx Proxy & SSL Certificate for Enhanced Security | Cloudrevol
+
+CloudRevol
+1.49K subscribers
+
+Subscribed
+
+ 
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+ 
+ 
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+ 
+
+
+Share
+
+Download
+
+38 views  Mar 4, 2024  #Linux #OpenJDK #Jenkins
+Please utilize the following link to incorporate Jenkins repositories and keyrings:
+
+https://www.jenkins.io/doc/book/insta...
+
+Update package lists
+apt update
+
+Install OpenJDK 11
+sudo apt install openjdk-11-jdk openjdk-11-jre 
+
+Install Jenkins
+sudo apt-get install jenkins
+
+Install Nginx
+sudo apt install nginx
+
+
+sudo snap install --classic certbot
+sudo certbot --nginx
+====================================
+Nginx Configuration for Jenkins
+
+server {
+    listen          80;
+    server_name     jenkins.domain.com;
+    access_log      /var/log/nginx/jenkins.domain.com.access.log;
+    error_log       /var/log/nginx/jenkins.domain.com.error.log;
+    client_max_body_size 20m;
+    server_name_in_redirect off;
+    location / {
+        try_files $uri = @backend;
+    }
+    location @backend {
+        error_log off;
+        client_max_body_size 20m;
+        client_body_buffer_size 128k;
+        proxy_connect_timeout 300;
+        proxy_send_timeout 300;
+        proxy_read_timeout 300;
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
+        proxy_redirect off;
+        proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_pass http://localhost:8080;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $http_host;
+    }
+}

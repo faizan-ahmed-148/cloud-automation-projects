@@ -1,0 +1,30 @@
+---------flow of execution
+. login to aws
+. create ec2 instance to run ansible playbook
+. install ansible
+. install boto
+. setup ec2 role for ansible
+. create a project directory
+. sample cloudtask (with key pair)
+. create variable file for vpc & bastio host
+. create vpc setup playbook
+. create bastion setup plaaybook
+. site.yml to call both playbook
+
+------------------------------------------------
+
+. login to aws
+. create ec2 instance to run ansible playbook
+. install ansible
+. install boto
+
+-- crate am role add admin access policy --> attach to ec2
+launch ec2 
+
+command: aws sts get-caller-identity
+
+ sudo apt search boto
+
+ sudo apt install python3-botocore
+
+--

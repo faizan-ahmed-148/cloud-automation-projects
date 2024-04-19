@@ -1,0 +1,135 @@
+ecs
+
+Elastic compute cloud
+
+type of instances 
+. general purposse
+. compare optimized
+. memory optimized
+. storagr optimized
+. high memory
+. previous generation
+
+IGW :  internet gateway
+
+Q: componenet of vpc  ??
+
+In Amazon Web Services (AWS), a Virtual Private Cloud (VPC) is a virtual network dedicated to your AWS account. It allows you to launch AWS resources in a logically isolated section of the AWS Cloud. Several components make up a VPC in AWS:
+
+Subnet: A subnet is a range of IP addresses in your VPC. You can create subnets to organize and manage your resources within the VPC. Subnets can be public or private, depending on their accessibility from the internet.
+
+Route Table: A route table contains a set of rules, called routes, that are used to determine where network traffic is directed. Each subnet in a VPC must be associated with a route table, which controls the traffic routing for the subnet.
+
+Internet Gateway (IGW): An internet gateway is a horizontally scaled, redundant, and highly available VPC component that allows communication between instances in your VPC and the internet. It facilitates outbound traffic from instances in the VPC to the internet and vice versa.
+
+Egress-Only Internet Gateway (for IPv6): This component is used for IPv6-enabled VPCs to allow outbound traffic while preventing inbound traffic from the internet.
+
+Virtual Private Gateway (VGW): A virtual private gateway is the VPN concentrator on the Amazon side of the VPN connection between your on-premises data center and your VPC.
+
+Customer Gateway: A customer gateway is the physical device or software application on your side of the VPN connection. It represents the external endpoint of your network.
+
+VPC Peering: VPC peering enables you to connect one VPC with another via a direct network route, allowing resources in different VPCs to communicate with each other as if they are within the same network.
+
+Network Access Control List (NACL): NACLs are stateless firewalls that control traffic at the subnet level. They are associated with subnets and evaluate inbound and outbound traffic based on rules you configure.
+
+Security Group: Security groups act as virtual firewalls for your instances to control inbound and outbound traffic. Unlike NACLs, security groups are stateful and operate at the instance level.
+
+VPC Flow Logs: VPC Flow Logs capture information about the IP traffic going to and from network interfaces in your VPC. You can use flow logs for monitoring, troubleshooting, and security analysis.
+
+These components collectively provide the foundation for creating a customizable and secure network environment within AWS VPCs.
+
+
+
+
+What is CIDR and IP address?
+
+CIDR (Classless Inter-Domain Routing or supernetting) is a method of assigning IP addresses that improves the efficiency of address distribution and replaces the previous system based on Class A, Class B and Class C networks
+
+
+What are the 2 types of VPCs?
+
+
+In the context of cloud computing, particularly in platforms like Amazon Web Services (AWS), a Virtual Private Cloud (VPC) is a virtual network dedicated to your AWS account. There are two types of VPCs based on their tenancy models:
+
+Default VPC:
+
+Every AWS account comes with a default VPC in each AWS region.
+Resources launched into the default VPC are created on shared hardware, which means they are part of the multi-tenant environment.
+The default VPC is convenient for getting started quickly, but as your architecture grows, you might prefer to create your own VPC for better customization and control.
+Custom VPC:
+
+AWS allows you to create custom VPCs tailored to your specific requirements.
+With a custom VPC, you have more control over the network architecture, IP address ranges, subnets, route tables, and other configuration settings.
+Resources in a custom VPC can be launched into a tenancy mode of your choice, either as a shared (default) or dedicated tenancy.
+
+
+SUbnet 
+
+Definition:
+
+A subnet is a logical subdivision of an IP network. It allows for the creation of smaller, isolated networks within a larger network.
+
+Purpose:
+
+Subnets help in optimizing network performance by controlling the broadcast domain and segmenting traffic.
+They enhance security by isolating different parts of a network, making it more challenging for unauthorized access or attacks to spread across the entire network.
+
+Types of Subnets:
+
+Public Subnet:
+
+Public subnets have IP addresses that are routable on the public internet.
+Typically used for resources that need direct access from the internet, such as web servers.
+Private Subnet:
+
+Private subnets have IP addresses that are not routable on the public internet.
+Resources in a private subnet often communicate with the internet through a Network Address Translation (NAT) gateway or NAT instance in a public subnet
+
+
+
+Q: ipv4 and ipv6 ??
+
+IPv4 (Internet Protocol version 4) and IPv6 (Internet Protocol version 6) are two different versions of the Internet Protocol, which is the set of rules governing the format of data sent over the internet. Here are the key differences between IPv4 and IPv6:
+
+Address Length:
+
+IPv4: Uses 32-bit addresses, allowing for approximately 4.3 billion unique addresses.
+IPv6: Uses 128-bit addresses, providing an astronomically larger address space, capable of accommodating an almost infinite number of unique addresses.
+Address Notation:
+
+IPv4: Addresses are represented in dotted-decimal format, such as 192.168.1.1.
+IPv6: Addresses are represented in hexadecimal notation, separated by colons, such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334.
+Address Configuration:
+
+IPv4: Originally, addresses were often configured manually or through DHCP (Dynamic Host Configuration Protocol). Network Address Translation (NAT) is commonly used to overcome the limitation of available IPv4 addresses.
+IPv6: Includes stateless autoconfiguration, DHCPv6, and manual configuration methods. The vast address space in IPv6 reduces the need for NAT.
+
+
+Q what is network ACL ??
+
+In AWS (Amazon Web Services), a Network Access Control List (Network ACL) is a virtual firewall that controls inbound and outbound traffic at the subnet level. It operates at the network level (Layer 3) of the OSI model and evaluates traffic based on rules you define.
+
+Key points about Network ACLs in AWS:
+
+Subnet Level Control: Network ACLs are associated with subnets, and each subnet in a VPC (Virtual Private Cloud) must be associated with a single Network ACL at any given time.
+
+Stateless: Unlike security groups, which are stateful, Network ACLs are stateless. This means you must create separate rules for inbound and outbound traffic, and responses to allowed inbound traffic are not automatically allowed outbound.
+
+Rule Evaluation Order: Rules in a Network ACL are evaluated in order, starting with the lowest numbered rule. Once a rule matches traffic, it's applied immediately, and no further rules are evaluated.
+
+Number of Rules: Network ACLs support both allow and deny rules, and you can add up to 20 rules for each inbound and outbound traffic.
+
+Default ACL: When you create a VPC, AWS automatically creates a default Network ACL. By default, it allows all inbound and outbound IPv4 traffic. You can create custom Network ACLs and associate them with your subnets as needed.
+
+Logging: You can enable logging for a Network ACL, which allows you to capture detailed information about the traffic that matches the rules. This can be helpful for security analysis and compliance auditing.
+
+Network ACLs provide an additional layer of security for your VPC by filtering traffic before it reaches your instances. They can be used in conjunction with security groups to create a defense-in-depth strategy for securing your AWS infrastructure.
+
+
+
+
+
+
+
+
+

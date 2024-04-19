@@ -1,0 +1,179 @@
+==============Docker installing==========
+
+--> yum install docker
+
+to see all images present in your local mcachine
+
+--?> docker images
+
+to find image in  docker hub
+
+---> docker search name
+
+-----> docker pull name
+
+
+to give name to container
+
+--> docker run -it --name fizan(containername) ubuntu /bin/bash
+
+check container details
+
+--. cat /etc/os-release
+
+exit --->to continer stop
+
+to check service is start or not 
+
+---> service docker status
+
+to start container 
+
+--> docker start faizan(containername)
+
+to go inside container 
+
+--> docker attach faizan(containername)
+
+to see all container
+
+--> docker ps -a
+
+to see only running container
+
+--> docker ps
+
+to stop container 
+
+--. doxker stop faizan(containername)
+
+to delete container
+
+--> docker rm faizan(containername)
+
+to get info 
+
+--- docker info
+
+
+
+
+
+
+========== docker file components & diff command===============
+
+create one container first
+
+-> docker run -it --name anyname ubuntu /bin/bash
+
+--> cd tmp/
+
+Now create one file inside this tmp directory
+
+--> touch filename
+
+now if you want to see the diffrence between the base image $
+change on it then
+
+--> docker diff containername updateimage
+
+
+output(
+       C /root
+       A /root/.bash_history
+       C /tmp
+       D /tmp/myfile
+)
+
+now create image of this container
+
+--> docker commit newcontainer(nameofcontainer) updateimage(nameofimage)
+
+--> docker image
+
+now create container  from the image 
+
+-> docker run -it --name anyname updateimage(nameofimage) /bin/bash
+
+ls 
+cd temp
+
+
+=================== docker file ====================
+
+docker file : is basicallly a text file it conbtains
+some set of instruction
+
+--> automation of docker image creation
+
+Docker components
+
+FROM -> for basic image this command must be on top of the docker file
+
+RUN -> toxecute command it will create a layer in immage
+
+MAINTAINER -> Author/Owner/Decription
+
+COPY -> copy file from local system (docker vm)
+we need to provide source, dedtination
+
+ADD -> similar to copy but it provide a feature to download files from internet also we 
+extract file at docker image
+
+EXPOSE -> to expose ports such as port 9090 for tomcatat port 90
+for nigix etc
+
+WORKDIR - > to set working directory for a container
+
+CMD -> execute commands but during container creation
+
+ENTRYPOINT -. similar to CMD but has high pririty over CMD
+
+ENV -. environment variables
+
+1) create a file named Dockerfile
+2) Add instructions in Dockerfile
+3) Build dockerfile to create image
+4)Run image to Create Container
+
+================= code =============
+
+vi Dockerfile
+
+FROM ubuntu:version
+
+RUN echo "techincal faizan" >/tmp/testfile
+
+to Create image out of dockerfile
+
+--> docker build -t myimg .
+
+docker ps -a
+
+docker images
+
+Now create Container from the above image
+
+-> docker run -it --name anyname myimg(nameofimage) /bin/bash
+
+cat /tem/testfile
+=====================================
+
+============ new code ===========       
+
+vi Dockerfile
+FROM ubuntu
+WORKDIR /tmp
+
+RUN echo "faizan"
+ENV myname faizan
+COPY testfile /tmp
+ADD test tar.gz /tmp   
+
+=========================================
+curl -L  namedomain
+
+
+
+
+docker run -d -p 9000:9000 sonarqube:lts-community

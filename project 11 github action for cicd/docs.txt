@@ -1,0 +1,80 @@
+------ Github action
+
+steps :
+
+. github steup --> fork git repo --> ssh login --> integrate with vs code
+
+. test code --> workflow & job --> maven & checkstyle --> sonar scanner --> sonar cloud
+
+. build & upload image --> job in workflow --> build docker image --> upload to aws ecr 
+
+. deploy to ecs --> job in workflow --> deploy ecs task def --> rds for app container
+
+--------------------------------------------------------------------------------------
+
+fork hprofile repostitory
+command : ssh-keygen --> /c/Users/ABC/.ssh/id_rsa
+command: ssh -i ~/.ssh/id_rsa.pub -T git@github.com
+command: fork the repository
+command : export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa"
+command: git clone 
+command : unset GIT_SSH_COMMAND
+command: git config core.sshCommand "ssh -i ~/.ssh/id_rsa -F /dev/null"
+command : cat .git/config
+
+----------------------------------------------------------
+--> go to the sonarqube --> create organiztion --> and all key the store in jenkins secret
+--> changes in pipeline and push
+--> run work space
+
+
+----------------------
+
+.create iam user with ecr and ecs policies
+.create ecr repository
+. create rds & initialize database
+.store iam keys and rds detail in github repository secret
+
+
+----------------------------
+
+--> create elastic create repository
+--> create rds
+-->  launch the ecs instance and run command to check rds and delete ecs
+--> 
+command : apt update && apt install mysql-client-core-8.0
+command : mysql -h database-1.c54260qews2y.us-east-1.rds.amazonaws.com -u admin -pXefwAbxgFoT7FkWWPt5E accounts
+
+clone code 
+
+command : mysql -h database-1.c54260qews2y.us-east-1.rds.amazonaws.com -u admin -pXefwAbxgFoT7FkWWPt5E accounts < src/main/resources/db_backup.sql
+
+
+---------------------------------------------------------------------
+
+now all the information store in github repository secret key
+
+
+------------------------------------------
+changes in workflow main.ym --> push --> and run
+
+--------------------------------------------
+
+now go to ecs (elastic container service) and run the container 
+
+create cluster
+create task definition
+go to cluster --> service --> create
+
+
+-----------------------------------------------
+
+go to the task definition --> json --> copy --> vs code --> paste in task deffiniton.json
+
+
+--------------
+
+change in main.yml
+
+
+------------------------

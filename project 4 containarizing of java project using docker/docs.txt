@@ -1,0 +1,89 @@
+----------------- containarization of java project using docker ------------------
+
+. multitier web application stack
+. re-chitect service for aws cloud
+. architecture to boot agility
+
+-----  scenario
+. multi tier application
+. running on vms
+. regular deployment
+. continuos changes
+
+----- problems
+
+. high capex & opex
+. human errors in deployment
+. not compatible with microservices architecture
+. resources wastage
+. not portable env not sync
+
+
+---- solution 
+
+. container
+. consumes low resource
+. deployment via image
+. same continer image across environment
+. reuble and repeatable
+
+--- tool
+docker
+java stack
+nginx
+mysql
+rabbitmq
+tomcat
+
+
+--steps
+. step to setup our stack service
+. find right base image from docker hub
+. write docker file to costomize images
+. write docker compose.yml file to run multi container
+. test & host image on docker hub
+
+
+-------------------------------------
+
+lunch ecs instance
+
+commands:
+1. for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+2. # Add Docker's official GPG key:
+3. sudo apt-get update
+4.sudo apt-get install ca-certificates curl
+5.sudo install -m 0755 -d /etc/apt/keyrings
+6. sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+7. echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+8. sudo apt-get updatesudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin9. 
+
+
+--> usermod -aG docker ubuntu
+
+
+----------------------------------------------------------
+ -- clone the project and push on github
+-- go to docker hub create repository app,db and web
+
+create docker file for app , db , web
+
+clone repo in ecs
+
+command : docker compose build
+command : docker compose up -d 
+ command : ip addr show
+ command : docker system prune -a
+
+
+
+
+
+
+

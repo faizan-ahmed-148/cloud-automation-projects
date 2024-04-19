@@ -1,0 +1,159 @@
+ELB :Elastic Load Balancing (ELB) automatically distributes incoming application traffic across multiple targets and virtual appliances in one or more Availability Zones (AZs)
+
+----------------- REFACTORING WITH AWS ------------------
+
+. multitier web application stack
+. re-chitect service for aws cloud
+. architecture to boot agility
+
+-----  scenario
+. cloud compuing team
+. virtualization team
+. dc ops team
+. monitoring team
+. sys admins ec involved
+
+----- problems
+. operational overhead
+. struggling with uptime  & scaling
+. upfront capex & regular opex
+
+manual process / diffcult to automate
+
+---- solution
+
+cloud setup -> paas & sass & Iaas
+provide flexibility
+
+---- aws service we use for frontend
+
+Beac stalk
+
+. VM for tomcat(app server)
+. Nginx LB Replacement
+. atomation for vm scaling
+. storage
+
+---- aws service we use for backend
+. for database -> RDS instance
+. Elactic cache -> Memchached
+. Active MQ -> rabbit MQ
+. Route53 -> DNS
+. CloudFront -> content delivery network
+
+
+ ----------------------- comparison ------------------------
+
+BEAN stack                                 Tomacat Ecs/VM
+ELB in BeanStack                           nginx lb/elb
+autoscaling                                none/ autoscaling
+EFS/S3                                     NFS/ S3/ EFS
+RDS                                        MYSQL On VM/EC2
+Elastic cache                              Memchached on Vm/ Ec2
+Active MQ                                  RabbitMQ on vm/Ec2
+Route 53                                   Godaddy, local DNs
+CloudFront                                 none/ multi DC across World
+
+-------- Architecture of our Aws Service For Project --------------------
+
+Ec2 Instance
+Elb
+Autoscaling
+Efs/s3
+RDS
+Elstic Cache
+Active Mq
+route53
+clud front
+
+user -> route -> amaoncloudfront -> application load balancer -> ec2 -> artifact s3 bucket
+
+
+--------- Flow of Execution --------------------------
+. login to aws account
+. create key pair
+. create security group for elasticchache , rds & active MQ
+. Create -> RDS - > Amazon Eastic Cache -> Amazon Active MQ
+. create Elastic Bean Stalk Environment
+. Update SG of backend to allow traffic from bean sg
+. update sg of bacjend to allow internal traffic
+
+. Launch Ec2-instance for db initializing
+. login to the enstane and initialize rds db
+. change healthcheck on beanstalk to login
+. add 443 https listner to elb build artifack with backend information
+. deploy artifact to bean staclk
+. create cdn with ssl cert
+. update Entry in godaddy DNS Zones
+. test the url
+
+
+
+--------------------------------------------------------
+
+-> first create asecurity group for backend
+-> Rds -> subnet group: network -> parameter group -> databses: mysql 
+Endpoint: database-1.c54260qews2y.us-east-1.rds.amazonaws.com
+Port 3306
+user : admin
+passowrd: XefwAbxgFoT7FkWWPt5E
+
+--> ElacticChache -> subnet group: network -> parameter group ->  dashboard ->
+memchached cluster : design your own chache -> standard -> 
+
+vprofile-elasticchache.oupy8v.cfg.use1.cache.amazonaws.com:11211
+
+--> rabbit mq: amazon mq --> 
+Endpoints
+AMQP
+amqps://b-a7322a11-85a8-4dfc-8243-822edd9e4dbc.mq.us-east-1.amazonaws.com:5671
+
+user name : rabbit
+pass: Blue456@12324
+
+-> create ec2:mysql-clinet ->  subnet : myip -> copysql security group : paste into backend secuity group: inbount rule :port 3306 ->
+
+launch -> 
+
+command : apt update && apt install mysql-client-core-8.0
+command : mysql -h database-1.c54260qews2y.us-east-1.rds.amazonaws.com -u admin -pXefwAbxgFoT7FkWWPt5E accounts
+
+clone code 
+
+command : mysql -h database-1.c54260qews2y.us-east-1.rds.amazonaws.com -u admin -pXefwAbxgFoT7FkWWPt5E accounts < src/main/resources/db_backup.sql
+
+
+
+terminate ec2 mysql-clinet
+
+
+------------ Elastic BeanStalk ----------------------------
+create
+configuration -> process ->  health check -> listner https -->
+
+--------------- now create s3 bucket---------------
+
+acl for existing buket object owner ship acl enabled
+
+----- COPY ECS SECURITY group id and paste into backend security group inbounded rule with all traffics
+
+add also backend inbounded role with 3306 11211 5672 ports
+
+
+
+--------------------
+
+clone the project local add database crediential and build the project and deploy on beanstack deploy
+
+
+-----------------
+
+
+cloud front :: cdn provide data sender with region and in  these region service is fast
+
+cloud fron is cdn of aws
+
+
+
+
+.

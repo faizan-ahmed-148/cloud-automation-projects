@@ -1,0 +1,21 @@
+CREATE OR REPLACE FUNCTION "public"."fngetloginuser"("inuseremail" varchar)
+  RETURNS TABLE("adminuserid" int4, "password" varchar, "is_active" bool, "userrole" varchar, "lastlogin" timestamp, "resp_code" int4, "first_name" varchar, "last_name" varchar, "last_login_ip" varchar, "country" varchar, "email_verified" bool, "image_url" varchar, "address" varchar, "state" varchar, "website" varchar, "created_at" timestamp, "gender_id" int4, "created_by" int4, "mobile_phone" varchar, "home_phone" varchar, "password_reset_token" varchar, "avatar_public_id" varchar, "avatar_url" varchar) AS $BODY$
+DECLARE
+  resp_code int;
+begin
+
+return query
+    select au.admin_User_ID,au.password, au.is_active,au.user_Role, au.last_Login_Date , 000 as resp_code ,
+    au.first_name, au.last_name, au.last_login_ip, au.country, au.email_verified, au.image_url, au.address,
+    au.state, au.website, au.created_at, au.gender_id, au.created_by, au.mobile_phone, au.home_phone, 
+    au.password_reset_token, au.avatar_public_id, au.avatar_url
+    from 
+    adminuser au where au.email = inUserEmail;
+    exception 
+	   when sqlstate 'P0002' then 
+	        raise exception 'User not found';
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE STRICT
+  COST 100
+  ROWS 1000

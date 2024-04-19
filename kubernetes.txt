@@ -1,0 +1,38 @@
+k8-cluster -> pod > docker container
+
+
+  +---------------------+
+  |      Master Node    |
+  |    (Control Plane)  |
+  |                     |
+  |  +---------------+  |
+  |  | API Server    |  |
+  |  +---------------+  |
+  |  | Controller    |  |
+  |  | Manager       |  |
+  |  +---------------+  |
+  |  | Scheduler     |  |
+  |  +---------------+  |
+  |  | etcd          |  |it store information in a form of key value 
+  |  +---------------+  |pair
+  +---------------------+
+            |
+            |
+            V
+  +---------------------+
+  |    Worker Node     |
+  |                     |
+  |  +---------------+  |
+  |  | Kubelet       |  |created the pod
+  |  +---------------+  |
+  |  | Container     |  |
+  |  | Runtime       |  |the container create in pod is doing by container runtime
+  |  +---------------+  |
+  |  | Kube Proxy    |  |kube proxy is responsible for managing all the networking of cluter 
+  |  +---------------+  |
+  |  | cAdvisor      |  |
+  |  +---------------+  |
+  +---------------------+
+
+
+

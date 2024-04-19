@@ -1,0 +1,549 @@
+
+chef founded by adan jacobs
+
+chef is an administrator tool whatever system admin used to do manually now we are atomatically al those task it is pull based tool
+
+configuration management tool : 
+
+--it is a method through which we automate admin task
+
+--configuration mangement tool turns your code into infrustruction
+
+--so your Code Would be Repeatable testable and versionable
+
+
+Advantages
+
+--automation
+--increase uptime
+--improve perfomance
+--ensure compliance
+--prevent error
+--reduce cost
+
+
+what is cookbook ?
+cookbook is a collection of recipe
+
+what is recipe ?
+
+repice is where we write code
+
+Cookbook is upload on chef server
+
+knife tool : to push cook book recipe on chef server
+
+bootstarp : the process is chef server connect to node is bootstrap
+
+chef super market : has all the code of cookbook or recipe
+
+node : use chef client tool & ohai
+
+Chef client : is to pull recpie from chef server
+
+ohai : all the information are store in ohai basically it work as a database 
+ 
+
+idempotency : chef use idempotency process it work as that chef server not take all the code again and again just pull the updated code
+
+---the language we use in chef is ruby
+
+WorkStation : Workstation are presonal computer or virtual server where all configuration code is created tested or changed
+
+2) workstation communicate with the chef server using Knife tool
+
+3)Knife : knife is command line tool that upload the cookbok in the server
+
+Chef Server : chef server is the middle man between workstation and node
+
+2) all cookbok are stored here
+
+3) server may be hosted or locally or remote
+
+Node : Node are the system where you applied your code 
+ohai : fetches the current state of the node is located 
+chef cliet : node is communicate with chef server using chef client tool
+
+
+-----======================== chef download ==============================-----
+chef.sh
+wget url
+-----===================== chef install ============================----
+apt install or yum install name or sudu dpkg -i name
+
+which chef
+chef --v
+
+fir we create cookbook
+and create recipe in cookbook 
+conmmands:
+ --mkdir cookbooks
+-- chef generate cookbook test-cookbook
+-- apt install tree -y
+
+ to generate rescipe
+
+--chef generatr recipe test-recipe 
+
+to update file ---vi test-cookbook/recipes/test-recipe.rb
+
+chef spec ruby -c test-cookbook/recipes/testrecipr.rb  -to check code is right or wrong
+
+chef exec ruby -c test-cookbook/recipes/testrecipr.rb  -to check code is right or wrong
+
+chef-client -zr "recipe[test-cookbook::test-recipe]"
+
+
+
+===== ================ =========== code ================================================================
+
+
+file '/myfile' do
+content 'Welcome to Technical Guftgu'
+action :create
+end
+
+*********
+
+
+package 'tree' do
+action :install
+end
+
+file '/myfile2' do
+content 'This is My Second Project code'
+action :create
+owner 'root'
+group 'root'
+end
+
+*********
+package 'httpd' do
+action :install
+end
+
+file '/var/www/html/index.html' do
+content 'Welcome to Technical Guftgu'
+action :create
+end
+
+
+service 'httpd' do
+action [:enable, :start]
+end
+
+===================================================================
+
+=========================
+=================================attributrs ============================
+=======================================================================
+-- sudu du
+--ohai
+--ohai ipaddress
+--ohai memory/total
+--ohai cpu/o/mhz
+
+
+CODE USED IN THIS LAB****
+
+file '/basicinfo' do
+ content "This is to get Attributes
+ HOSTNAME: #{node['hostname']}
+ IPADDRESS: #{node['ipaddress']}
+ CPU: #{node['cpu']['0']['mhz']}
+ MEMORY: #{node['memory']['total']}"
+ owner 'root'
+ group 'root'
+action :create
+end
+***********************************************
+
+attributes
+
+=====================================================================================
+
+
+============How to exwcute linux comand on chef====================
+         ================================================
+
+--sudo su
+--vi test-cookbook/recipes/test-recipe
+
+execute "run a script" do
+ command <<-EOH
+ mkdir /rajputdir
+ touch / rajputfile
+ EOH
+end
+
+now run a recipe -chef-client -zr "recipe[test-cookbook::test-recipe]"
+
+
+ls / --to see root directory
+
+====== create user using linux and chef =======
+
+-vi test-cookbook/recipes/test-recipe
+
+user "name" do
+action :create
+end
+
+now run a recipe -chef-client -zr "recipe[test-cookbook::test-recipe]"
+
+===============================================================
+
+====== create group using linux and chef =======
+
+-vi test-cookbook/recipes/test-recipe
+
+group "name" do
+action :create
+member 'rajput'
+append true
+end
+
+now run a recipe -chef-client -zr "recipe[test-cookbook::test-recipe]"
+
+cat /etc/group -- see group
+
+==============================================================================
+
+
+ =========== to run multiple recipe =============
+
+Q) what is runlist ?
+A) to run the recipe order that we mwntion in a run list
+
+with this process, we can run multiple recipe, but the condition is there must be
+only one recipe from one cookbook
+
+comand to run multiple cookcook and each cookbook run only one recipe 
+
+====== chef-client -zr "recipe[test-cookbook::test-recipe]", "recipe[apache-cookbook::apache-recipe]", and other
+
+== comand to run multiple cookcook and all recipe ==
+
+--to run multiple recipe from same cookbook
+--here comes the default recipe into action
+--we can run any no of recipe with this command
+but all must be from same cookbook
+
+== we use include method to add name all recipe in defaulatrecipe.rb ====
+
+---> include_recipe
+
+-vi test-cookbook/recipes/defaultrecipe.rb
+
+include_recipe "test-cookbook::test-recipe"
+include_recipe "test-cook::recipename"
+
+to run--> chef-client -zr "recipe[test=cookbook::default]"
+
+ 
+
+now we are combining previous two 
+concepts, so that we can run multiples recipes from multiple cookbook
+ simuntaniously
+
+--> chef-client -zr "recipe[test-cookbook::default]", "recipe[apache-cookbook::default]" and other
+
+=====================or==================
+
+chef-client -zr "recipe[test-cookbook]", "recipe[apache-cookbook]" and other
+
+
+========================================================end=================================================
+
+=======================bootstrap====================
+
+
+
+create one account in chef-server
+then attach your workstation to chef-server
+now upload your cookbooks from workstation to chef-server
+now attach nodes to chef-server via bootstrap process
+apply cookbook from chef-server to node
+
+
+
+===========start===========
+
+
+
+start server
+--> cd cookbook
+now open google chrome -> search manage.chef.io
+---> create one account
+
+Go to chef account  - > click an organization -> starter kit -> download starter Kit ->
+open the download content -> unzip - > che-repo
+
+now download 'WinSCP' -> login with ec2 credential 
+Now drag & drop 'chef-repo' folder from window to linux
+
+now open workstation in AWS again 
+
+-> ls
+-> cd..
+->ls
+
+chef-repo ,cookbooks
+cd chef-repo
+--.ls -a
+chef cookbooks role
+--cd chef/
+ls
+knife.rb
+cat knife.rf or config.rb
+
+cd ..
+knife SSl check
+
+
+successfully verified certificate
+
+
+==================== verified =====================
+
+
+
+
+=================create node===========================
+
+
+
+bootstrap : attach a node to chef sever is called bootstraping 
+(both workstation and node should be in same Az)
+now onward you have to be inside 'chef-repo' directory to run any command
+
+two actions will be done while bootstrapping
+
+--> adding node to chef-server
+
+--> installing chef package
+
+
+crete one linux machine (node1), lunch in same AZ
+
+advance details  #!/bin/bash
+--> sudu su
+--> yum update -u
+
+now go to chef-workstation
+
+--> knife bootstrap ip(node private ip) --ssh-user ec2-user (username) --sudo -i node-key.open -N anyname
+(using winscp software to share key in linux)
+
+
+paste nade-key paste in chef-repo folder
+
+knife node list --( to see bootstrapped node)
+
+=================== node verified ========
+
+mv cookbook/apache-cookbook namewheremove ----comand move files
+
+
+
+
+==========now upload cookbook in chef server ========
+
+
+
+[chef-repo]
+-----> knife cookbook upload cookbookname
+-----> knife cookbook list
+now we will attach recipe what we would like to run on node
+ ---> knife node run_list set node1 "recipe[apache-cookbook::apache-recipe]"
+----> knife node show node1
+
+===== without automation  =====
+acess node
+
+--> sudo su
+---> chef-client
+
+now all files would be updated go to browser,
+ paste public-ip of
+of the node you will get webpage
+
+==== now go to workstation and do automation method ===
+
+[chef-repo]
+vi cookbooks/apache-cookbook/recipes/apache-recipe.rb
+
+now change some content & save file
+
+--> knife cookbook upload cookbookname
+
+
+
+
+======automation ==========
+
+go to node
+
+vi /etc/crontab
+
+write  ***** root chef-client
+
+Now , go to chef-workstation
+
+[chef-repo]# vi cookbooks/apache-cookbook/recipes/apache-recipe.rb
+
+now change some content & save file
+
+[chef-repo]# knife cookbook upload apache cookbook
+
+===== end ===============
+
+
+
+====== now do thid method all node ========
+
+lunch new node 
+
+advance command
+!/bin/bash
+sudo su
+yum update -y
+echo "***** root chef-client">>/etc/crontab
+now go to chef-workstation
+
+--> knife bootstrap ip(node private ip) --ssh-user ec2-user (username) --sudo -i node-key.open -N anyname
+(using winscp software to share key in linux)
+
+ ---> knife node run_list set node1 "recipe[apache-cookbook::apache-recipe]"
+-----> knife cookbook upload cookbookname
+
+
+
+========== chef-role ==================
+
+command to delete $ clean chef server
+[chef-repo]#
+to se list of cookbooks hich are present in chef server
+--> knife cookbook list
+
+to delete cookbook from chef server
+--> knife cookbook delete<cookbookname> -y
+
+to see list of node which are present in chef-server
+--> knife node list
+
+to delete nodes from chef-server
+--> knife node delete <nodename> -y
+
+to see list of clients which are present i chef-server
+--> knife client-list
+
+to delete clients from chef-server
+knife client delete <clientname> -y
+
+to see list of roles which are present in chef-server
+--> knife role list
+
+to delete roles from chef-server
+knife role delete <rolename> -y
+
+
+========= role ===================
+
+-->cd chef-repo
+-->ls
+-->cd roles
+[roles]# ls
+o/p starter.rb
+[role]# vi anynameofrole.rb
+
+ name "devops'
+ description "web service role"
+ run_list "recipe[apache-cookbook::apache-recipe]",others
+
+now comeback to chef repo
+
+[roles]# cd ..
+[chef-repo]#
+
+now upload the role on chef-server
+
+[chef-repo]# knife role from file roles/nameofrole.rb
+updated role devops
+
+
+--> knife role list
+
+now create two instances as node & node2 is same AZ as of 
+workstation
+
+now bootstrap the node
+
+[chef-repo]# knife bootstrap <privateip> --ssh-user ec2-user --sudo -i node-key.pem -N node1
+
+[chef-repo]# knife bootstrap <privateip> --ssh-user ec2-user --sudo -i node-key.pem -N node2
+
+now connect these node to role
+
+[chef-repo]# knife node run_list set node2 "role[devops]"
+ 
+[chef-repo]# knife node show node1
+
+[chef-repo]# knife cookbook upload apache-cookbook
+now check public-ip of any node in browser
+
+[chef-repo]# cat cookbooks/apache-cookbook/recipes/recipe.rb
+
+
+[chef-repo]# vi roles/devops.rb
+
+ name "devops'
+ description "web service role"
+ run_list "recipe[apache-cookbook::recipe1]",others
+
+[chef-repo]# knife role from file roles/devops.rb
+
+now take access of any node via putty & check
+
+now again go to wokstation 
+
+[chef-repo]# vi roles/devops.rb
+
+ name "devops'
+ description "web service role"
+ run_list "recipe[apache-cookbook]",others
+
+[chef-repo]# knife role from file roles/devops.rb
+
+[chef-repo]# knife cookbook upload apache-cookbook
+
+
+======== now do this with two cook book ===========
+
+[chef-repo]# vi roles/devops.rb
+
+ name "devops'
+ description "web service role"
+ run_list "recipe[apache-cookbook]","recipe[testcookbook]"
+
+[chef-repo]# knife role from file roles/devops.rb
+
+[chef-repo]# knife cookbook upload apache-cookbook
+
+
+[chef-repo]# vi cook-books/test-cook/recipes/test-recip.rb
+
+======= code ====== 
+
+%w(hhtpd mariadb-server wnzip git vim andallnameyouinstall).each do |p|
+
+  pakage p do
+  action :install
+  end
+  end
+
+
+=========================
+[chef-repo]# knife cookbook upload test-cookbook
+
+====================== complete ===============================

@@ -1,0 +1,73 @@
+
+
+-----tools
+
+. jenkins 
+. nexus sonatype 
+. sonarqube
+. maven
+. git
+. slack
+. aws ec2
+. tomcat
+. ansible
+
+. deployment automation
+. short mttr
+. fast turn around on feature changes
+. less disruptive
+
+
+---------------------------------------------
+
+-- update github webhook
+-- launch ec2 instance for app01-stagging
+-- jenkins prerequisites
+  a. install ansible , install ansible plugin, save app01, ssh login creds, timestamp
+-- create  seprate branch for the pipeline in source code
+  a. copy ansible code from vprofile project repository to own
+-- create dns record in route 53 dor app staging
+-- create inventory file in ansible code
+-- update security group 
+  a. allow 22 in app sg from jenkins, allow 8081 in app sg from nexus
+-- write jenkins file to run ansible playbook from jenkins
+-- create pipeline in jenkins & test it
+---  launch app01-prod, dns record, in route 53 create inventory file
+--  create pipeline in jenkins and test it
+-- test for promoting changes 
+
+
+-----------------------------------------------------------------------------------
+
+. create one app sever --> ec2
+
+. craete hosted zone route 53
+
+. add global ssh key app01 server key.pem
+
+.  now install ansible in jenkins server and plugin add in jenkins
+
+. create ansible files
+
+. add this in jenkins stage code
+
+. now make stage.inventory file and add record of route 53 hosted zone
+
+. changes in jenkins file 
+
+.. alow nexus secutity group 8081 --> app server
+
+
+production --. create ecs and record add in hosted zone and add in inverntory file
+
+
+
+
+
+
+. push the code
+
+. 
+
+
+

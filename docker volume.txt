@@ -1,0 +1,88 @@
+====================Docker volume================================
+
+--> volume is simply a directory inside our container
+--> firstly we have to declare this directory as a volume and then share volume
+--> even if we stop container ,still we have access volume
+--> volume will be created in one container
+--> you can declare a directory as a volume only while sreating container
+
+-->you canot create volume from existing container
+--> you can share one volume across any number of container
+--> volume will not be included when you update an image 
+
+you can mapped volume in two ways
+
+1) container == container
+2) host == container
+
+
+==========creating volume  from Dockerfile====================
+
+creating a dockerfile and write
+
+  FROM ubuntu
+  VOLUME ["myvolume"]
+
+then create image this dockerfile
+--> docker build -t imagename .
+
+now create container from this image & run
+--> docker run -it --name container imagename /bin/bash
+
+now share volumee with another container
+
+--> docker run -it --name container2(new)  --privileged=true --volumes-from yourcontainer(which have volume)
+
+
+Now after creating containerw, myvolume1 is visible whatever you in one Volume cansee from another
+
+touch /myvolume1
+
+======================================================================
+
+
+=============== Now try to create Volume by using command =======
+
+---> docker run -it --name containername -v /volume2 ubuntu /bin/bash
+--> do ls -> cd volume
+
+Now create one file container and exit
+
+
+now create one more container and share volume2
+
+docker run -it --name containername u--privileged=true --volumes-from containername(which have volume) /bin/bash
+
+now you are inside ccontainer do ls, you can see volume2
+
+now create One file inside this volume and then check in container you can see that
+
+============================================================================
+
+
+=========== Some other Command with host container=============
+
+[vbox]#
+
+--> docker run -it --name hostCont -v /home/ec2-user:/names --privileged=true ubuntu /bin/bash
+
+cd name
+
+do ls now you can see all file in host machine
+
+--> touch filename 
+
+now check  in ec2 machine you can see
+
+
+
+
+--> docker volume ls
+--> docker volume Create <volumename>
+--> docker volume rm <volumename>
+--> docker volume prune -->it removed all unused docker
+--> docker vloume inspect
+--> docker container inspect <volumename>
+
+
+docker run -d -p 8080:8080 text-utils:latest                                                            

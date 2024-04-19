@@ -1,0 +1,142 @@
+-- > playbook in ansible are written in YAML format 
+-- > it is human readable data serialization language it is commanly use  for configuration files
+-- > Playbook is like a file where you write code  consist of vars , tasks , handlers ,  files templates , and role
+
+-- > Each playbook is composed  of one or more 'module' in alist Module is a collection of configuration file
+
+-- >  playbook are divided into many section like target section define the host against which playbooks task has to be executed
+
+-- >  task section : list of all module that we need to run in an order 
+
+
+============= YAML =========================
+
+--> for ansible nearly every YAmL file starts with a list
+
+--> Each item in the list is a list of key Value pairs commonly called a directory
+all yaml file  have to begin  with "" and end  with "..."
+
+-- >  all members of a list lines 
+
+
+go to ansible server 
+--> now create one playbook target.yml
+
+ # TARGET pLAYBOOK 
+--- # my first yml
+
+- hosts: DEMO 
+  user: ANSIBLE
+  become: YES
+  connection: SSH
+  gatter_fact: YES
+
+now to execute playbook
+
+[ansible@ip] ansible-playbook target.yml
+
+
+target + task
+
+[ansible@ip] # vi task.yml
+
+- hosts: DEMO 
+  user: ANSIBLE
+  become: YES
+  connection: SSH
+  gatter_fact: YES
+
+  tasks :
+   - name: install httpd on linux 
+     action: yum name=httpd state=installed
+
+now to execute playbook
+
+[ansible@ip] ansible-playbook task.yml
+
+
+
+===============  Variable ============
+
+
+--> ansible uses variable which are define previously to enable more flexibility in playbook and role they can be used to loop through a set of given values , access information like given values access various and replace the host name system and replace certain stringin template with specific value
+
+
+now go to ansible server and create one playbook
+
+vi cars.yml
+
+[ansible@ip]# My variable playbook
+
+-- hosts: demo
+   user: ansible
+   become: yes
+   connection: ssh
+   
+   vars: 
+        pkgname: httpd
+   tasks: 
+      - name: install httpd server
+        action: yum name='{{pkgname}}' state=installed
+
+now to execute playbook
+
+[ansible@ip] ansible-playbook vars.yml
+
+
+======================== handler section =====================
+A handler is exactly  the same as a task but it will run when called by another task
+
+or
+
+
+handler are just like regular tasks in an ansible playbook but are only run if the task contains , but are only run if the task conta
+ins a notify directive
+
+
+[ansible@ip] vi handlers.yml
+
+-- hosts: demo
+   user: ansible
+   become: yes
+   connection: ssh
+   
+   vars: 
+        pkgname: httpd
+   tasks: 
+      - name: install httpd server
+        action: yum name='{{pkgname}}' state=installed
+        notify: restart HTTPD
+   handlers:
+      - name: restart HTTPD
+        action: service name='{{pkgname}}'state=restarted
+
+
+now to execute playbook
+
+[ansible@ip] ansible-playbook handlers.yml
+
+
+=========== Loop ===============
+
+ loop : some time you repeat a task in multiple time
+
+--- My loop play book -----
+
+
+[ansible@ip] vi loop.yml
+
+-- hosts: demo
+   user: ansible
+   become: yes
+   connection: ssh
+   
+   tasks: 
+         - name: add a list of users
+           user: name = '{{item}}' state=present
+           with_items: 
+                - faizan
+                - junaid
+                - ahsan
+                - danial
+              

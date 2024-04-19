@@ -1,0 +1,39 @@
+-----------  jenkins pipeline as a code --------------------
+
+continuos integrstion with jenkins
+jenkins , nexus & sonarqube setup
+
+--about
+
+automatically create jenkins job
+
+scripted way of created pipeline
+
+-----------
+
+install jenkins :
+#!/bin/bash
+sudo apt-get update -y
+sudo apt install maven -y
+sudo apt-get install fontconfig openjdk-17-jre
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update -y
+sudo apt-get install jenkins -y
+-----------------------------------------
+
+add jdk and maven in jenkins tool
+
+---------------------------------------
+
+install plugin pipeline utils and pipeline maven
+
+----------------
+
+
+
+
+

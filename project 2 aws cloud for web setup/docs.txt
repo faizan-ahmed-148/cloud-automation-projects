@@ -1,0 +1,145 @@
+ ------------------------------- Lift And shift Application workload ---------------------------
+
+fLOW OF execution 
+
+a . login to aws account
+b. create keypairs
+c. create security groups
+d. lunch instances with user data[bash scripts]
+e update ip to name mapping in route 53
+f. build application from source code
+g. upload to s3 bucket
+h. download artifact to tomcat rc2 instance
+i. setup Elb with HTTPS [cert from amazon certificate manger]
+j. setup ELB Endpoint to website name in godady dns
+k. verify
+l. build auto scaling group for tomcat instance
+
+
+lanch 4 enactance db01: almailinux, mc01: almailinux, rmq01: almailinux, app01: ubuntu
+
+--- > connect db01 instace
+
+
+command :  TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` \
+&& curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/user-data
+
+command:  mysql -u admin -padmin123 accounts
+
+
+--- > connect mc01 instace
+
+command :  ss -tunlp |grep 11211 -- checking service runing
+
+--- > connect rmq01 instace
+
+command :  systemctl status rabbitmq-server
+
+--- > connect app01 instace
+
+command :  systemctl status tomcat9
+
+--- now go route 53 aws --->  
+
+create routing ->
+record with private ip db,mc,rmq-->
+
+--- now go resources application.properties in vscode clone app
+
+#JDBC Configutation for Database Connection
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://db01.vprofile.in:3306/accounts?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+jdbc.username=admin
+jdbc.password=admin123
+
+#Memcached Configuration For Active and StandBy Host
+#For Active Host
+memcached.active.host=mc01.vprofile.in
+memcached.active.port=11211
+#For StandBy Host
+memcached.standBy.host=127.0.0.2
+memcached.standBy.port=11211
+
+#RabbitMq Configuration
+rabbitmq.address=rmq01.vprofile.in
+rabbitmq.port=5672
+rabbitmq.username=test
+rabbitmq.password=test
+
+#Elasticesearch Configuration
+elasticsearch.host =192.168.1.85
+elasticsearch.port =9300
+elasticsearch.cluster=vprofile.vprofile.in
+elasticsearch.node=vprofilenode
+
+
+------------------
+
+command : mvn install 
+
+
+--------
+
+
+now go iam and create user s3admin
+
+--------------
+
+command: aws congiure
+--> aws s3 mb s3://fafhkcoder123346456 --region=eu-east-1
+--> aws s3 cp target/vprofile-v2.war  s3://fafhkcoder123346456 
+
+
+now go to roles in aws 
+
+attach policies s3
+
+rolename : fafhkcoder123346456-vprofile
+
+
+-------- now go to instance app01 attach role -----
+start instance app01
+
+--> apt update -y
+--> apt install awscli
+--> aws s3 ls
+--> aws s3 cp s3://fafhkcoder123346456/vprofile-v2.war /tmp/
+--> systemctl stop tomcat9
+-->  rm -rf /var/lib/tomcat9/webapps/ROOT
+-->  cp /tmp/vprofile-v2.war /var/lib/tomcat9/webapps/ROOT.war
+--> systemctl start tomcat9
+--> ls /var/lib/tomcat9/webapps/
+--> cat  /var/lib/tomcat9/webapps/ROOT/WEB-INF/classes/application.properties
+--> 
+
+
+------------- all the thing are done now we set load balancer and dns ---------------------------
+
+first create target group 
+load balancer
+
+---------------
+
+after go godady and add cname in dns
+
+
+---- https://vprofileapp.groophy.in/
+
+
+--------- now autoscalling group ------------------
+
+action --> image -- > create image
+
+------now go ami  -----------
+
+----- go to lunch configuration ------
+
+select instance type t2.micro
+
+---- now create auto scalling group
+
+
+
+
+
+

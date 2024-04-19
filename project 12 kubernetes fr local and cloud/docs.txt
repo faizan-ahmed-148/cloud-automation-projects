@@ -1,0 +1,236 @@
+--- tools 
+
+minikube --> local for testing & learning
+kubeadm --> multinode cluster local/cloud
+kops --> cloud aws & gcp
+aws eks --> aws cloud kubernetes server
+
+
+------------------------------------------------------------
+
+
+--> setup cluster
+---> test kubernetes cluster
+
+--------------------------------------------- setup cluster with minikube ----------------------
+
+start power shell : admin
+command : choco install minikube kubernetes-cli -y
+
+command : New-Item -Path 'c:\' -Name 'minikube' -ItemType Directory -Force
+Invoke-WebRequest -OutFile 'c:\minikube\minikube.exe' -Uri 'https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe' -UseBasicParsing
+
+ command : $oldPath = [Environment]::GetEnvironmentVariable('Path', [EnvironmentVariableTarget]::Machine)
+if ($oldPath.Split(';') -inotcontains 'C:\minikube'){
+  [Environment]::SetEnvironmentVariable('Path', $('{0};C:\minikube' -f $oldPath), [EnvironmentVariableTarget]::Machine)
+}
+
+command : minikube start
+command : kubectl get po -A
+command : kubectl get po -A
+command : minikube kubectl -- get po -A
+
+-- > kubectl.exe get node --> cat ~/.kube/config
+
+-- >Create a sample deployment and expose it on port 8080:
+command : kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0
+command : kubectl expose deployment hello-minikube --type=NodePort --port=8080
+
+--> kubectl get pod
+--> kubectl get deploy
+
+--> minikube service hello-minikube
+
+--> kubectl delete svc hello-minikube
+--> kubectl delete pod hello-minikube
+--> kubectl delete deploy hello-minikube
+--> minikube delete
+
+-- >It may take a moment, but your deployment will soon show up when you run:
+command : kubectl get services hello-minikube
+
+-- >The easiest way to access this service is to let minikube launch a web browser for you:
+command : minikube service hello-minikube
+
+-- >Alternatively, use kubectl to forward the port:
+command : kubectl port-forward service/hello-minikube 7080:8080
+
+command :  http://localhost:7080/
+
+-- >Pause Kubernetes without impacting deployed applications:
+command: minikube pause
+
+-- > Unpause a paused instance:
+command: minikube unpause
+
+-- > Halt the cluster:
+command: minikube stop
+
+-- >Browse the catalog of easily installed Kubernetes services:
+command : minikube addons list
+
+-- >Create a second cluster running an older Kubernetes release:
+command :nminikube start -p aged --kubernetes-version=v1.16.1
+
+
+-----------------------------------------------------------------------------------
+
+-- > prod environment by using kubeadm --> https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+--> 
+
+
+------------------ instruction setup cluster with kubeadm ------------------------------------------------
+
+--> login to master & node with root user
+--> prerequisites on all nodes
+--> install docker engine of all nodes
+--> install kubedm , kubelet & kubectl 
+--> execute kubeadm init -- on master node
+--> save the node join command(kubeadm join) returned by master node
+--> execute "kubeadm join" command returned by master setup on node
+--> execute user-setup script on master node
+--> login to ubuntu user and run "kubectl get node"
+
+
+-------------------------------------------------------------
+clone code in ubuntu
+
+--> sudo nano /etc/systemd/system/myscript.service
+[Unit]
+Description=My Script
+After=network.target
+
+[Service]
+ExecStart=/path/to/your/script.sh
+
+[Install]
+WantedBy=default.target
+
+-------------------------
+4. Reload the systemd daemon to load the new service unit file:
+sudo systemctl daemon-reload
+
+5. Enable the service to start at boot:
+sudo systemctl enable myscript.service
+
+6. Start the service:
+sudo systemctl start myscript.service
+
+--------------------
+
+--> chmod +x kubemaster-init.sh
+
+---> --> chmod +x kubenode2-init.sh
+
+--> chmod +x kubenode1-init.sh
+
+
+
+
+
+
+
+
+----------- setup cluster with kops on aws -----------------------------------------------------------------------------------------------------
+
+. domain rote 53 for kubbernetes dns records groophy.in from godaddy
+. create a linux --> kops, kubectl sshkey, aws cli
+. login to aws account --> s3 bucket iam user for aws cli , rout53 hosted zone
+
+--> first create and instance
+--> create s3 bucket
+--> create route 53 hosted zone
+entry all ns service in dns
+--------------------------------
+
+go to ecs --> apt update -y &&  apt install awscli -y
+
+ --> aws configure
+
+--> now we need kubectl and kops
+--> install kube ctl https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+--> sudo mv kubectl /usr/local/bin
+--> kubectl --help
+
+--. install kops https://github.com/kubernetes/kops/releases
+
+--> chmod =x kops-linux-amd
+--> sudo mv kops-linux-amd64 /usr/local/bin/kops
+
+--> kops
+
+--> kops --version
+
+--> nslookup -type=ns kubevpro.groophy.in
+
+--> kops create cluster --name=kubevpro.groophy.in \
+> --state=s3://kube-kops123 --zones=us-east-1a, us-east-1b \
+> --node-count=1 --node-size=t3.small --master-size=t3.medium --dns-zone=kubevro.groophy.in \
+> --node-volume-size=8 --master-volume-size=8
+
+kops create cluster --name=kubevpro.groophy.in \
+--state=s3://kube-kops123 --zones=us-east-1a,us-east-1b \
+--node-count=1 --node-size=t3.small --master-size=t3.medium --dns-zone=kubevro.groophy.in \
+--node-volume-size=8 --master-volume-size=8
+
+
+
+--> kops update cluster --name kubevpro.groophy.in --state=s3://kube-kops123 --yes --admin
+--> kops validate cluster --state=s3://kube-kops123
+
+--> cat ~/.kube/config
+--> kubectl get nodes
+--> kops delete cluster --name=kubevpro.groophy --state=s3://vprokops --yes
+--> sudo poweroff
+
+------------------------------------------------------------------------------------------------
+
+
+------------- ---------- aws eks for cluster ------------------------------------------------
+
+
+docs : https://docs.aws.amazon.com/eks/
+
+--> go to ec2 
+
+--> clone code :
+
+--> go to eks directory
+ --> chmod +x ./eks-tools-setup.sh
+--> ./eks-tools-setup.sh
+--> eksctl version
+--> kubectl version
+ --> chmod +x ./eks-cluster-setup.sh
+--> ./eks-cluster-setup.sh
+--> kubectl version --short --client
+
+--> cat ~/.kube/config
+--> kubectl get nodes
+--> eksctl delte cluster name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

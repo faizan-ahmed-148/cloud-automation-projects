@@ -1,0 +1,149 @@
+----------deployig web application on kubernetes cluster-----------------------
+
+--scenario
+
+.multitier web application
+. containerized
+. tested it
+. want host for production
+
+
+--- requirements
+
+. high availability
+. fault tolerance
+. easily scalable
+. platform independent
+. portable &  flexible
+
+
+--- steps 
+. kubernetes cluster
+. containerized apps(vprofile)
+. create ebs volume for db pod
+. label node with zones name
+. kubernete definition file for
+  . deployment -> service -> secret -> volume
+
+
+
+----------- setup cluster with kops on aws -----------------------------------------------------------------------------------------------------
+
+. domain for kubbernetes dns records groophy.in from godaddy
+. create a linux --> kops, kubectl sshkey, aws cli
+. login to aws account --> s3 bucket iam user for aws cli , rout53 hosted zone
+
+--> first create and instance
+--> create s3 bucket
+--> create route 53 hosted zone
+entry all ns service in dns
+--------------------------------
+
+go to ecs --> apt update -y &&  apt install awscli -y
+
+ --> aws configure
+
+--> now we need kubectl and kops
+--> install kube ctl https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+--> sudo mv kubectl /usr/local/bin
+--> kubectl --help
+
+--. install kops https://github.com/kubernetes/kops/releases
+
+--> chmod =x kops-linux-amd
+--> sudo mv kops-linux-amd64 /usr/local/bin/kops
+
+--> kops
+
+--> kops --version
+
+--> nslookup -type=ns kubevpro.groophy.in
+
+--> kops create cluster --name=kubevpro.groophy.in \
+> --state=s3://kube-kops123 --zones=us-east-1a, us-east-1b \
+> --node-count=1 --node-size=t3.small --master-size=t3.medium --dns-zone=kubevro.groophy.in \
+> --node-volume-size=8 --master-volume-size=8
+
+kops create cluster --name=kubevpro.groophy.in \
+--state=s3://kube-kops123 --zones=us-east-1a,us-east-1b \
+--node-count=1 --node-size=t3.small --master-size=t3.medium --dns-zone=kubevro.groophy.in \
+--node-volume-size=8 --master-volume-size=8
+
+
+
+--> kops update cluster --name kubevpro.groophy.in --state=s3://kube-kops123 --yes --admin
+--> kops validate cluster --state=s3://kube-kops123
+
+--> cat ~/.kube/config
+--> kubectl get nodes
+--> kops delete cluster --name=kubevpro.groophy --state=s3://vprokops --yes
+--> sudo poweroff
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+lets create an ebs volume 
+
+--> aws ec2 create-volume --availability-zone=us-east-1a --size=3 --volume-type=gp2
+
+--> copy vloume id
+
+--> create label --> kubectl get nodes --show-labels
+--> kubectl get nodes
+--> kubectl descibe node ip-172-20-47-16.us-east-1.com.compute.intenl | grep us-east-2
+
+--> kubectl label nodes ip-172-20-47-16.us-east-1.compute.internl zoe=us-east-1b
+
+encode password : echo -n "password" | base64 
+create kubefile --
+
+apiVersion: v1
+kind: Secret 
+metadata: 
+  name: app-secret
+type: Opaque
+data:
+ db-pass: 
+ rmq-pass: 
+
+------------------------------------------------
+
+push and clone in ec2
+
+command : kubectl crete -f app-secret.yaml
+
+command : kubectl get secret
+
+command : kubectl describe secret
+
+
+------------------------------------------------
+
+
+now we write db definition file vprodbdep.yml
+
+--------------------------------------------------------------------------------------------
+add tag to the volume ebs
+--> kubectl get nodes --show-labels
+
+         
+--> kubectl create -f vprodbdep.yml
+
+--> kubectl get pod
+
+--> kubectl describe pod
+--------------------------------------------------------------------------
+Now create service file :  vprodb-service.yml
+ 
+
+create mamche deployment -> service
+
+push and pull to ec2 
+
+--> create -f .
+
+--> kubectl get deploy
+---> kubectl get pod
+--> kubec get svc
+
+  now put this load balance end point in godaddy 
+and route53 host zone --> record

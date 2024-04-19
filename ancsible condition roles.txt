@@ -1,0 +1,51 @@
+================ condition =========
+
+-> whenever we have different scenerios we put conditions according to the scenerio
+
+
+ when statement
+some times you want to skip a particular command to a particular node 
+command on a particular node
+
+================================code================
+-- hosts: demo
+   user: ansible
+   become: yes
+   connection: ssh
+   
+   tasks: 
+         - name: Install apache server for dedian family
+           command: apt-get -y install apache2
+           when: ansible_os_family == 'debian'
+         - name: install apache for redhat
+           command: yum -y install httpd
+           when ansible_os_family == 'redhat'
+
+
+================== Vault lock ansible playbook====================
+
+
+--> Anvible aloows keeping Sensitive data such as password or keys in encrypted files rather than plain text in your playbook
+
+--> Creating a new encrypted playbook
+
+   ansible-vault create vault.yml
+
+--> edit the encrypted playbook
+
+   ansible-vault edit vault.yml
+
+--> to change the password
+   
+    ansible-vault rekey vault.yml
+
+--> to encrypt on existing playbook
+
+   ansible-vault encrypt target.yml
+
+--> to decrypt an encrypted playbook
+
+    ansible-vault decrypt target.yml
+
+
+

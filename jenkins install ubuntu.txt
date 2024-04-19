@@ -1,0 +1,48 @@
+lunch ec2 instance
+
+
+-> sudo apt-get update
+-> sudo apt-cache search openjdk
+-> sudo apt-get install openjdk-8-jdk
+-> java -version
+-> sudo vi /etc/apt/sourcelist
+
+ sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \ https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+   
+
+
+  echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+    https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+    /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+ echo deb https://pkg.jenkins.io/debian-stable binary/
+pub   rsa4096 2023-03-27 [SC] [expires: 2026-03-26]
+      63667EE74BBA1F0A08A698725BA31D57EF5975CA
+uid                      Jenkins Project 
+sub   rsa4096 2023-03-27 [E] [expires: 2026-03-26]
+
+
+-> sudo apt-get update
+-> wget -q -o 
+-> sudo apt-cache search jenkins
+-> sudo apt-cache madison jenkins
+-> sudo apt-get install jenkins -y
+-> sudo service jenkins status -> q
+
+-> copy ip of your instance
+gi to instance -> sudo cat /var/lib/initialpassworhttps
+
+
+sudo wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo apt-key add -
+
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+sudo apt-get update
+sudo apt-get install fontconfig openjdk-17-jre
+sudo apt-get install jenkins
+
+
+sudo echo "faizan ALL(ALL) NOPASSWD: ALL" >> /etc/sudoers                                                                                      
+ 
+

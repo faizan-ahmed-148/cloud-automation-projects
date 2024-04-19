@@ -1,0 +1,47 @@
+Teraform totarial 
+
+
+introduction:
+
+iaac | infrastructure
+
+define infrastruture state
+
+-- terform work with automation software like ansible after infra is setup ready
+-- no programming its own syntax similar to json
+
+-- lunch and ec2 instance
+
+-- iam user with access key
+
+-- terraform file to lauch instance
+
+--run teraform apply
+
+
+---------------------------------------------------------
+choco install terraform
+create exersice 1
+
+command: terraform init
+command: terraform validate
+command: terraform fmt
+command: terraform plan
+command: terraform apply
+
+provisiner:
+file : the file provisioner is used to copy files or directories
+remote-exec: invokes a command / script on remote resources
+local-exec: provisoner invokes a local executable after a ressources is created
+puppet: provisioner install configure and run puppet agent on a remote resources
+chef : thechef provisioner install configure and run the chef
+ansible: run terraform output ip add ress, run playbook with loca-exec
+
+
+
+
+
+
+
+
+

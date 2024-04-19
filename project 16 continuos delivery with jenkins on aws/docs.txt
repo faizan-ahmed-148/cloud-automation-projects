@@ -1,0 +1,49 @@
+--------tool
+
+.java
+. sonarqube
+. nexus
+. slack
+. bean stalk
+. aws cli
+. aws s3
+
+
+------- steps
+1. validate ci
+2.install aws cli in jenkins
+3. clone code 
+4. aws services
+   a. create s3 bucket 
+   b iam user wit access with bean and s3 policy
+   c crete bean stalk application with name vproapp
+4. jenkins file in the git repository & test the pipeline
+5. jenkins for prod
+   create new bean stalk env for prod
+   create a new branch for prof
+   crete new pipeline for prod
+
+----------------------------------------------------------
+install plugins :
+ . docker pipeline
+ . cloudbees docker build
+ . amazon ecr
+ . pipeline: aws step
+ . aws credential
+------------------------------
+. crete iam user with bean and s3 policies 
+. add global aws creadentials -->plugin install aws credential
+. create ands3 bucket
+. create bean stalk --> application --> coustom configure --> t2 small --> rlling --> size 50%
+. write jenkins file
+. go to bean congiguration --> load balancer -->target --> health check change
+
+-----------------------------------
+production
+. create one more environment
+. go to bean congiguration --> load balancer -->target --> health check change
+. 
+
+
+
+

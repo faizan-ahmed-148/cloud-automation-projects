@@ -1,0 +1,125 @@
+linux comand
+cat>filename ---to edit create file 
+cat file1 file2 >> --file3 to merge
+cat file1 > file2 --to copy files 
+tac filename --data in decending order
+cat --file name to see files
+touch file1 file2  -- to create empty file
+touch --- use to change file state
+touch -a --access change
+touch -m --modified change
+
+vi filename to change file and create --to exit first esc and shift+:wq to exit and save
+to --inser i
+nano to change and create --to exit ctrl+x and shift y 
+
+to create directory mkdir filename
+ls -l to see either it is directory or file
+
+to create hidden file touch .filename
+ls -a to see hidden files
+
+mkdir -p dirc/dirx/dirf -- to create parent child directory
+
+pwd commad to show where you are
+cp filename > filename --to copy file
+mv filename dir --to cut file
+
+RM -RF DIR ro remove dir
+yum update -y --to update all linux file or sudo apt update
+
+sudo apt install tree --to show tree
+
+grep
+
+less  filename --show file page 1 content 
+more  filename --show file page end content
+sort filename --show data in alphabetic order
+hostname 
+hostname -i --show ip 
+if config --show all details
+cat /etc/os-release -- show all detail server
+
+---server ---
+
+yum install httpd ot apt install apache2 
+to check status service httpd status or apache2 status
+
+service httpd start or service apache2 start -- toactive
+service httpd stop --stop
+service remove httpd or apache2
+chkconfig httpd on 0r apache2
+ apt or list installed --to show all installed package\
+
+
+which tree --show where pakage installed
+echo "hello" ----console
+
+
+---creating users---
+
+useradd faizan --to add user
+cat /etc/passwd --to check all user
+
+groupadd faizangroup --to add group
+cat /etc/group --to check group
+
+gpasswd -a nameuser groupname --to add user in group
+gpasswd -M nameuser,nameuser groupname -- to add multiple user 
+
+
+----- softlink -----
+
+ln -s filname softlink --to create soft link
+
+
+ ----hardlink -----
+ln filename hardlinkname
+
+---tar----
+
+tar -cvf dirx.txt dirx -- to create tar 
+
+--zip--- compress
+
+gzip dirx.tar
+
+--unzip--- compress
+
+gunzip dirx.tar
+
+
+
+-----permissions -------
+
+chmod 777 read write execute diename ---permission
+owner group user
+7 = rwx
+5 = r-x
+
+other method 
+
+chmod g=r, o=rw dir1
+
+chmod u=r,  g = rwx. 0=x filename
+
+in use of plus
+
+chmod u+r ,g +e
+
+in use of minus 
+chmod u-r
+
+----------to create user in to directory owner---------
+chown groupname dirname
+
+----change group name----
+chgrp groupname newname
+
+ 
+
+
+
+
+
+
